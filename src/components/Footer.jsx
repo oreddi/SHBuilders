@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => (
-  <footer id="contact" className="reveal">
+  <footer id="contact" className="reveal in">
     <div className="inner ft-grid" style={{display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '80px', paddingBottom: '60px'}}>
       <div>
         <div className="ft-logo" style={{fontFamily: 'var(--serif)', fontSize: '28px', color: '#fff', letterSpacing: '4px', marginBottom: '20px'}}>

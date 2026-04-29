@@ -50,11 +50,11 @@ const Hero = () => {
       </div>
       <div className="hero-overlay" />
       <div className="inner" style={{position: 'relative', zIndex: 2, textAlign: 'center'}}>
-        <span className="tag reveal" style={{color: '#fff', borderColor: 'rgba(255,255,255,0.3)', margin: '0 auto 20px', display: 'table'}}>
+        <span className="tag reveal in" style={{color: '#fff', borderColor: 'rgba(255,255,255,0.3)', margin: '0 auto 20px', display: 'table'}}>
           Premium Construction
         </span>
-        <h1 className="hero-title reveal" style={{fontSize: '60px', fontWeight: '400', letterSpacing: '2px'}}>Building Value<br/>For Over 28 Years</h1>
-        <Link to="/portfolio" className="btn-solid reveal" style={{marginTop: '40px', display: 'inline-block'}}>
+        <h1 className="hero-title reveal in" style={{fontSize: '60px', fontWeight: '400', letterSpacing: '2px'}}>Building Value<br/>For Over 28 Years</h1>
+        <Link to="/portfolio" className="btn-solid reveal in" style={{marginTop: '40px', display: 'inline-block'}}>
           View Our Work
         </Link>
       </div>

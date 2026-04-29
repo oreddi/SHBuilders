@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import PortfolioPage from './pages/PortfolioPage';
 import CompanyPage from './pages/Company';
 import ProjectDetails from './pages/ProjectDetails';
+import LoadingOverlay from './components/LoadingOverlay';
 import './index.css';
 
 // Scroll to top on route change
@@ -53,6 +54,7 @@ const AnimationObserver = () => {
 function App() {
   return (
     <Router>
+      <LoadingOverlay />
       <ScrollToTop />
       <AnimationObserver />
       <Navbar />

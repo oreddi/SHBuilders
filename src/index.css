@@ -300,8 +300,7 @@ img {
   cursor: pointer;
 }
 
-/* Removed the asymmetrical nth-child rules for uniform grid */
-
+/* Image Scale Animation */
 .proj-card img {
   width: 100%;
   height: 100%;
@@ -316,23 +315,22 @@ img {
 .proj-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0);
-  transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+  transform: translateY(100%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: flex-end;
-  padding: 40px;
+  padding: 50px;
 }
 
 .proj-card:hover .proj-overlay {
-  background: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
 }
-
-/* THE LIGHT BLACK OVERLAY */
 
 .proj-info {
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: all 0.6s ease;
 }
 
 .proj-card:hover .proj-info {
@@ -342,21 +340,22 @@ img {
 
 .proj-name {
   font-family: var(--serif);
-  font-size: clamp(24px, 3vw, 36px);
+  font-size: 32px;
   color: #fff;
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 .proj-cat {
-  font-size: 8px;
-  letter-spacing: 5px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #fff;
+  opacity: 0.7;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: block;
 }
+
+
 
 /* ═══════════════════════════════════
    NEAT CLUTTER (SPLIT LAYOUT)
@@ -511,8 +510,11 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
-  .proj-card {
+  .proj-card,
+  .proj-card.large,
+  .proj-card.small {
     height: 400px;
+    grid-column: span 1 !important;
   }
 
   .nav {

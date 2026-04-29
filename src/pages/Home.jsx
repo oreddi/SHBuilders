@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
-import { Stats, VideoStrip, About, Services, Testimonials, Clients, ParallaxStrip } from '../components/HomeSections';
+import { Stats, VideoStrip, About, Services, ProcessVideo } from '../components/HomeSections';
 
 const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([]);
@@ -24,13 +24,13 @@ const Home = () => {
     <>
       <Hero />
 
-      <section className="sec sec-wh" id="home-portfolio" style={{ paddingTop: '60px' }}>
+      <section className="sec sec-wh" id="home-portfolio">
         <div className="inner">
-          <div className="reveal" style={{ textAlign: 'left', marginBottom: '60px', maxWidth: '800px' }}>
-            <span className="tag">Selected Works</span>
-            <h2 className="h2" style={{ fontSize: '32px', marginBottom: '16px' }}>Featured Projects</h2>
-            <p className="body-p" style={{ fontSize: '16px', lineHeight: '1.6', color: '#666' }}>
-              Design and Architecture from SHBuilders. We have designed and constructed luxury residences for discerning families. Review our portfolio to see how we bring craftsmanship to your vision.
+          <div className="reveal in" style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <span className="tag">Portfolio</span>
+            <h2 className="h2" style={{ marginBottom: '20px' }}>Selected Works</h2>
+            <p className="body-p" style={{ maxWidth: '700px', margin: '0 auto' }}>
+              A showcase of our commitment to quality and architectural excellence. Review our portfolio of custom luxury constructions.
             </p>
           </div>
 
@@ -65,8 +65,8 @@ const Home = () => {
                   </Link>
                 ))}
               </div>
-              <div style={{ textAlign: 'center', marginTop: '60px' }} className="reveal in">
-                <Link to="/portfolio" className="btn-solid">View All Projects</Link>
+              <div style={{ textAlign: 'center', marginTop: '80px' }} className="reveal in">
+                <Link to="/portfolio" className="btn-outline" style={{ color: '#000', borderColor: '#000' }}>View All Projects</Link>
               </div>
             </>
           )}
@@ -75,7 +75,6 @@ const Home = () => {
 
       <About />
       <Services />
-      <VideoStrip />
     </>
   );
 };

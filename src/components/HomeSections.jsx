@@ -11,9 +11,9 @@ export const Stats = () => (
 
 export const VideoStrip = () => (
   <div className="vid-strip reveal">
-    <video autoPlay muted loop playsInline>
-      <source src="https://v1.coverr.co/video/construction-site-in-the-afternoon-8914/720p.mp4" type="video/mp4" />
-    </video>
+    {/* <video autoPlay muted loop playsInline>
+      <source src="https://cdn.coverr.co/videos/coverr-construction-site-in-the-afternoon-8914/1080p.mp4" type="video/mp4" />
+    </video> */}
     <div className="vid-overlay">
       <div className="vid-text">
         <h2>Uncompromising Quality.</h2>
@@ -26,7 +26,7 @@ export const About = () => (
   <section className="sec sec-wh" id="about" style={{ paddingBottom: 0 }}>
     <div className="inner">
       <div className="split-grid">
-        <div className="reveal">
+        <div className="reveal in">
           <span className="tag">Since 1997</span>
           <h2 className="h2">Building Value For<br />Over Two Decades</h2>
           <p className="body-p">
@@ -34,7 +34,7 @@ export const About = () => (
           </p>
           <button className="btn-outline" style={{ marginTop: '40px', color: '#000', borderColor: '#000' }}>Our Company</button>
         </div>
-        <div className="split-img reveal">
+        <div className="split-img reveal in">
           <img src="/images/PherinWoodExteriors.jpg" alt="About SHBuilders" />
         </div>
       </div>
@@ -46,10 +46,10 @@ export const Services = () => (
   <section className="sec sec-wh" id="services">
     <div className="inner">
       <div className="split-grid" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
-        <div className="split-img reveal">
+        <div className="split-img reveal in">
           <img src="/images/PersimmonDrKitchen.jpg" alt="Our Services" />
         </div>
-        <div className="reveal">
+        <div className="reveal in">
           <span className="tag">Services</span>
           <h2 className="h2">Complete Home<br />Building Solutions</h2>
           <div className="svc-list">
@@ -120,9 +120,23 @@ export const ParallaxStrip = ({ image, title }) => (
   <div className="parallax-strip" style={{ backgroundImage: `url(${image})` }}>
     <div className="parallax-overlay" />
     {title && (
-      <div className="parallax-content reveal">
+      <div className="parallax-content reveal in">
         <h2>{title}</h2>
       </div>
     )}
+  </div>
+);
+
+export const ProcessVideo = () => (
+  <div className="vid-strip reveal in" style={{ height: '50vh', minHeight: '400px', margin: '40px 0' }}>
+    <video autoPlay muted loop playsInline style={{ filter: 'brightness(0.7)' }}>
+      <source src="https://v1.coverr.co/video/architect-working-on-blueprints-8913/720p.mp4" type="video/mp4" />
+    </video>
+    <div className="vid-overlay">
+      <div className="vid-text">
+        <span className="tag" style={{ color: '#fff', opacity: 0.8 }}>Our Process</span>
+        <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: '300' }}>The Building Cycle</h2>
+      </div>
+    </div>
   </div>
 );

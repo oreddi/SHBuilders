@@ -7,6 +7,7 @@ const PortfolioPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Fetching from your synced Box API
     fetch('http://localhost:3000/api/projects')
       .then(res => res.json())
       .then(data => {
@@ -14,7 +15,7 @@ const PortfolioPage = () => {
         setLoading(false);
       })
       .catch(err => {
-        console.error("Failed to fetch from backend", err);
+        console.error("Failed to fetch projects", err);
         setLoading(false);
       });
   }, []);
@@ -29,7 +30,7 @@ const PortfolioPage = () => {
     <div style={{ paddingTop: '100px' }}>
       <section className="sec sec-off">
         <div className="inner">
-          <div className="reveal" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px' }}>
+          <div className="reveal in" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px' }}>
             <h1 className="h2" style={{ fontSize: 'clamp(48px, 6vw, 84px)' }}>Our Portfolio</h1>
             <p className="body-p" style={{ margin: '0 auto' }}>
               A curated collection of our finest custom homes and renovations. Built with uncompromising standards.
@@ -38,7 +39,7 @@ const PortfolioPage = () => {
 
           {loading ? (
             <div style={{textAlign: 'center', padding: '100px 0', fontFamily: 'var(--serif)', fontSize: '24px'}}>
-              Loading Projects from Box...
+              Loading Projects...
             </div>
           ) : (
             <>
