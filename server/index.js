@@ -109,7 +109,7 @@ app.get('/api/projects/:folderId', (req, res) => {
   });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Backend API Server running perfectly on http://localhost:${PORT}`);
+  console.log(`Backend API Server running perfectly on port ${PORT}`);
 });
