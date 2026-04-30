@@ -10,7 +10,8 @@ const Hero = () => {
   ]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/projects')
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    fetch(`${API_URL}/api/projects`)
       .then(res => res.json())
       .then(data => {
         if (data.length >= 3) {

@@ -7,8 +7,8 @@ const PortfolioPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetching from your synced Box API
-    fetch('http://localhost:3000/api/projects')
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    fetch(`${API_URL}/api/projects`)
       .then(res => res.json())
       .then(data => {
         setProjects(data);
@@ -19,7 +19,7 @@ const PortfolioPage = () => {
         setLoading(false);
       });
   }, []);
-  
+
   const handleLoadMore = () => {
     setVisibleCount(prev => prev + 6);
   };
@@ -38,7 +38,7 @@ const PortfolioPage = () => {
           </div>
 
           {loading ? (
-            <div style={{textAlign: 'center', padding: '100px 0', fontFamily: 'var(--serif)', fontSize: '24px'}}>
+            <div style={{ textAlign: 'center', padding: '100px 0', fontFamily: 'var(--serif)', fontSize: '24px' }}>
               Loading Projects...
             </div>
           ) : (
@@ -59,8 +59,8 @@ const PortfolioPage = () => {
 
               {visibleCount < projects.length && (
                 <div style={{ textAlign: 'center', marginTop: '60px' }}>
-                  <button 
-                    className="btn-outline reveal in" 
+                  <button
+                    className="btn-outline reveal in"
                     onClick={handleLoadMore}
                     style={{ color: 'var(--black)', borderColor: 'var(--border)' }}
                   >
