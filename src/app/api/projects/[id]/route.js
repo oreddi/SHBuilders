@@ -19,11 +19,11 @@ export async function GET(request, { params }) {
     const data = await fetchFromBox(folderUrl);
     const regex = /Box\.postStreamData = (\{.*?\});/s;
     const match = data.match(regex);
-    
+
     if (match && match[1]) {
       const payload = JSON.parse(match[1]);
       const items = payload['/app-api/enduserapp/shared-folder']?.items || [];
-      
+
       const images = items.filter(item => item.type === 'file').slice(0, 10).map(file => {
         const downloadUrl = `https://app.box.com/index.php?rm=box_download_shared_file&shared_name=9shlu6n0hhs5qnwq4gk767x6p25uzh0a&file_id=f_${file.id}`;
         return {

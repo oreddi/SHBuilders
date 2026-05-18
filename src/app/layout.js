@@ -1,8 +1,6 @@
 import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import AnimationObserver from "@/components/AnimationObserver";
+import RootLayoutClient from "./RootLayoutClient";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
 const montserrat = Montserrat({
@@ -27,10 +25,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${montserrat.variable} ${cormorantGaramond.variable}`}>
         <LoadingOverlay />
-        <AnimationObserver />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <RootLayoutClient>
+          {children}
+        </RootLayoutClient>
       </body>
     </html>
   );

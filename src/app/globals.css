@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    RESET & TUCKMAN TOKENS
    Ported from Vite project to ensure look-and-feel is identical.
-═══════════════════════════════════ */
+----------------------------------- */
 *,
 *::before,
 *::after {
@@ -13,10 +13,14 @@
 }
 
 :root {
-  --navy: #0F172A;      /* Deep Navy */
-  --charcoal: #1E293B;  /* Charcoal */
-  --gold: #C5A059;      /* Champagne Gold */
-  --stone: #F8F9FA;     /* Warm Stone Neutral */
+  --navy: #0F172A;
+  /* Deep Navy */
+  --charcoal: #1E293B;
+  /* Charcoal */
+  --gold: #C5A059;
+  /* Champagne Gold */
+  --stone: #F8F9FA;
+  /* Warm Stone Neutral */
   --black: #1A1A1A;
   --white: #FFFFFF;
   --off: var(--stone);
@@ -48,9 +52,9 @@ img {
   object-fit: cover
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    BUTTERY SCROLL ANIMATIONS
-═══════════════════════════════════ */
+----------------------------------- */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -62,9 +66,9 @@ img {
   transform: translateY(0);
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    NAV (TRANSPARENT, OVERLAYS HERO)
-═══════════════════════════════════ */
+----------------------------------- */
 .nav {
   position: fixed;
   top: 0;
@@ -124,9 +128,9 @@ img {
   color: var(--navy);
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    HERO
-═══════════════════════════════════ */
+----------------------------------- */
 .vid-strip {
   position: relative;
   height: 60vh;
@@ -227,9 +231,9 @@ img {
   color: var(--white);
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    SECTION COMMONS
-═══════════════════════════════════ */
+----------------------------------- */
 .sec {
   padding: 80px 100px
 }
@@ -273,9 +277,9 @@ img {
   max-width: 700px;
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    PORTFOLIO SHOWCASE (UNIFORM GRID)
-═══════════════════════════════════ */
+----------------------------------- */
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -362,9 +366,9 @@ img {
   display: block;
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    NEAT CLUTTER (SPLIT LAYOUT)
-═══════════════════════════════════ */
+----------------------------------- */
 .split-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -396,9 +400,9 @@ img {
   margin-bottom: 15px;
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    TESTIMONIALS & CLIENTS
-═══════════════════════════════════ */
+----------------------------------- */
 .testi-wrap {
   max-width: 900px;
   margin-top: 60px;
@@ -434,9 +438,9 @@ img {
   text-align: center;
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    FOOTER
-═══════════════════════════════════ */
+----------------------------------- */
 footer {
   background: var(--navy);
   padding: 120px 100px 60px;
@@ -568,7 +572,7 @@ footer {
 }
 
 .stat-n.count {
-    /* Potential counter animation styling */
+  /* Potential counter animation styling */
 }
 
 .stat-l {
@@ -627,9 +631,9 @@ footer {
   font-weight: 400;
 }
 
-/* ═══════════════════════════════════
+/* -----------------------------------
    CONSTRUCTION PM APP STYLES
-═══════════════════════════════════ */
+----------------------------------- */
 .pm-container {
   padding: 120px 80px 60px;
   min-height: 100vh;
@@ -661,7 +665,7 @@ footer {
 }
 
 .pm-card:hover {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   border-color: var(--gold);
 }
 
@@ -700,8 +704,15 @@ footer {
   font-weight: 600;
 }
 
-.status-badge.active { background: #E0F2FE; color: #0369A1; }
-.status-badge.completed { background: #DCFCE7; color: #15803D; }
+.status-badge.active {
+  background: #E0F2FE;
+  color: #0369A1;
+}
+
+.status-badge.completed {
+  background: #DCFCE7;
+  color: #15803D;
+}
 
 .progress-container {
   margin-top: 10px;
@@ -766,7 +777,7 @@ footer {
   padding: 20px;
   border-radius: 6px;
   border: 1px solid var(--border);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   cursor: grab;
   display: flex;
   flex-direction: column;
@@ -796,6 +807,21 @@ footer {
   font-weight: 700;
 }
 
-.priority-tag.high { background: #FEE2E2; color: #991B1B; }
-.priority-tag.medium { background: #FEF3C7; color: #92400E; }
-.priority-tag.low { background: #F0F9FF; color: #075985; }
+.priority-tag.high {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.priority-tag.medium {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.priority-tag.low {
+  background: #F0F9FF;
+  color: #075985;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -31,7 +31,7 @@ export default async function PMDashboard() {
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-          
+
           {projects.length === 0 && (
             <p className="body-p" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '100px 0' }}>
               No active projects found. Create one to get started.

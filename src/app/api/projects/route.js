@@ -35,11 +35,11 @@ export async function GET() {
     const data = await fetchFromBox(BOX_LINK);
     const regex = /Box\.postStreamData = (\{.*?\});/s;
     const match = data.match(regex);
-    
+
     if (match && match[1]) {
       const payload = JSON.parse(match[1]);
       const items = payload['/app-api/enduserapp/shared-folder']?.items || [];
-      
+
       let imageIndex = 0;
       const projects = items.filter(item => item.type === 'folder').map(folder => {
         const img = AVAILABLE_IMAGES[imageIndex % AVAILABLE_IMAGES.length];
