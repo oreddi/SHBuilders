@@ -1,62 +1,80 @@
 import { NextResponse } from 'next/server';
-import https from 'https';
+import { client } from '@/sanity/lib/client';
+import imageUrlBuilder from '@sanity/image-url';
 
-const BOX_LINK = 'https://app.box.com/s/9shlu6n0hhs5qnwq4gk767x6p25uzh0a/folder/136585239866';
+const builder = imageUrlBuilder(client);
 
-const AVAILABLE_IMAGES = [
-  "/images/PherinWoodExteriors.jpg",
-  "/images/IsabelWayWOutside (1).jpg",
-  "/images/Wildwood Ave.jpg",
-  "/images/Alydar Loop inside.jpg",
-  "/images/WildwoodAveraInside.jpg",
-  "/images/PersimmonDr.jpg",
-  "/images/RidgeField PI Exteriors.jpg",
-  "/images/JOHNSONRDW.jpg",
-  "/images/IsabelWay.jpg",
-  "/images/WildWoodAveraInside2.jpg",
-  "/images/8095Vane Ct,Theodore.jpg",
-  "/images/PersimmonDrKitchen.jpg",
-  "/images/8095Vane,Inside.jpg",
-  "/images/8095VaneInside.jpg"
-];
-
-function fetchFromBox(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, (boxRes) => {
-      let data = '';
-      boxRes.on('data', (chunk) => { data += chunk; });
-      boxRes.on('end', () => resolve(data));
-    }).on('error', (err) => reject(err));
-  });
+function urlFor(source) {
+  return builder.image(source);
 }
 
 export async function GET() {
   try {
-    const data = await fetchFromBox(BOX_LINK);
-    const regex = /Box\.postStreamData = (\{.*?\});/s;
-    const match = data.match(regex);
+    // The exact 5 properties the user wants featured on the homepage (ordered list of slugs)
+    const featuredSlugs = [
+      '23964-unbridled-loop',
+      '24253-alydar-loop',
+      '1011-wildwood-avenue',
+      '30293-persimmon-drive',
+      '6001-ridgefield-place-exteriors-and-video'
+    ];
 
-    if (match && match[1]) {
-      const payload = JSON.parse(match[1]);
-      const items = payload['/app-api/enduserapp/shared-folder']?.items || [];
+    const properties = await client.fetch(
+      `*[_type == "property" && slug.current in $slugs] {
+        _id,
+        name,
+        "slug": slug.current,
+        category,
+        mainImage
+      }`,
+      { slugs: featuredSlugs }
+    );
 
-      let imageIndex = 0;
-      const projects = items.filter(item => item.type === 'folder').map(folder => {
-        const img = AVAILABLE_IMAGES[imageIndex % AVAILABLE_IMAGES.length];
-        imageIndex++;
-        return {
-          id: folder.id,
-          name: folder.name,
-          img: img,
-          cat: "Custom Home"
-        };
+    if (properties && properties.length > 0) {
+      // Sort them in the exact order of the slugs array
+      const sortedProperties = properties.sort((a, b) => {
+        return featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug);
       });
 
-      return NextResponse.json(projects);
-    } else {
-      return NextResponse.json({ error: 'Could not find Box data payload' }, { status: 500 });
+      const formatted = sortedProperties.map(p => ({
+        id: p.slug || p._id,
+        name: p.name,
+        img: p.mainImage && p.mainImage.asset ? urlFor(p.mainImage).width(1600).quality(85).url() : '/images/placeholder.jpg',
+        cat: p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1) : 'Custom Home',
+      }));
+
+      return NextResponse.json(formatted);
     }
+
+    // Fallback: If Sanity fails or is empty, return local images
+    const AVAILABLE_IMAGES = [
+      "/images/PherinWoodExteriors.jpg",
+      "/images/IsabelWayWOutside (1).jpg",
+      "/images/Wildwood Ave.jpg",
+      "/images/Alydar Loop inside.jpg",
+      "/images/WildwoodAveraInside.jpg"
+    ];
+
+    const NAMES = [
+      "23964 Unbridled Loop", "24253 Alydar Loop", "1011 Wildwood Avenue",
+      "30293 Persimmon Drive", "6001 Ridgefield Place"
+    ];
+
+    const SLUGS = [
+      "23964-unbridled-loop", "24253-alydar-loop", "1011-wildwood-avenue",
+      "30293-persimmon-drive", "6001-ridgefield-place-exteriors-and-video"
+    ];
+
+    const fallback = AVAILABLE_IMAGES.map((img, i) => ({
+      id: SLUGS[i],
+      name: NAMES[i],
+      img,
+      cat: "Custom Home",
+    }));
+
+    return NextResponse.json(fallback);
   } catch (err) {
-    return NextResponse.json({ error: 'Error fetching from Box', details: err.message }, { status: 500 });
+    console.error('Projects API error:', err);
+    return NextResponse.json({ error: 'Failed to fetch featured projects' }, { status: 500 });
   }
 }

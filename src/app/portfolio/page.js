@@ -18,9 +18,13 @@ export default function PortfolioPage() {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 9; // 3 columns * 3 rows = 9 items per page
 
   useEffect(() => {
-    fetch('/api/projects')
+    // Reads from Sanity via /api/portfolio
+    fetch('/api/portfolio')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -37,11 +41,29 @@ export default function PortfolioPage() {
 
   const handleFilter = (cat) => {
     setActiveCategory(cat);
+    setCurrentPage(1); // Reset to first page on filter change
     if (cat === "All") {
       setFilteredProjects(projects);
     } else {
-      setFilteredProjects(projects.filter(p => p.cat.toLowerCase() === cat.toLowerCase()));
+      setFilteredProjects(projects.filter(p => p.cat && p.cat.toLowerCase() === cat.toLowerCase()));
     }
+  };
+
+  // Pagination Math
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const goToPrevPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -56,7 +78,7 @@ export default function PortfolioPage() {
             </p>
           </div>
 
-          {/* Filter Bar - From Project Proposal Section 2.5 */}
+          {/* Filter Bar */}
           <div className="filter-bar reveal in">
             {CATEGORIES.map((cat) => (
               <button
@@ -74,25 +96,49 @@ export default function PortfolioPage() {
               Loading Projects...
             </div>
           ) : (
-            <div className="proj-grid">
-              {filteredProjects.map((proj, idx) => (
-                <Link href={`/portfolio/${proj.id}`} className="proj-card reveal in" key={idx} style={{ height: '500px' }}>
-                  <img src={proj.img} alt={proj.name} loading="lazy" />
-                  <div className="proj-overlay">
-                    <div className="proj-info">
-                      <span className="proj-cat">{proj.cat}</span>
-                      <h3 className="proj-name">{proj.name}</h3>
+            <>
+              {/* Projects Grid */}
+              <div className="proj-grid">
+                {paginatedProjects.map((proj, idx) => (
+                  <Link href={`/portfolio/${proj.id}`} className="proj-card reveal in" key={proj.id || idx}>
+                    <img src={proj.img} alt={proj.name} loading="lazy" />
+                    <div className="proj-overlay">
+                      <div className="proj-info">
+                        <span className="proj-cat">{proj.cat}</span>
+                        <h3 className="proj-name">{proj.name}</h3>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-              
+                  </Link>
+                ))}
+              </div>
+
               {filteredProjects.length === 0 && (
                 <div style={{ textAlign: 'center', width: '100%', padding: '60px 0', color: 'var(--grey)' }}>
                   No projects found in this category yet.
                 </div>
               )}
-            </div>
+
+              {/* Bottom Pagination - Center Grouped */}
+              {totalPages > 1 && (
+                <div className="pagination-bottom reveal in">
+                  <button
+                    onClick={goToPrevPage}
+                    disabled={currentPage === 1}
+                    className="pag-btn"
+                  >
+                    ← Previous
+                  </button>
+                  <span className="page-info-bottom">Page {currentPage} of {totalPages}</span>
+                  <button
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                    className="pag-btn"
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -126,6 +172,62 @@ export default function PortfolioPage() {
           background: var(--navy);
           border-color: var(--navy);
           color: #fff;
+        }
+
+        /* Pagination Bottom - Center Grouped */
+        .pagination-bottom {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          margin-top: 60px;
+          border-top: 1px solid var(--border);
+          padding-top: 30px;
+        }
+        .page-info-bottom {
+          font-family: var(--font-montserrat);
+          font-size: 12px;
+          font-weight: 500;
+          color: var(--grey);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        /* Gold Themed Buttons */
+        .pag-btn {
+          background: transparent;
+          border: 1px solid var(--gold);
+          padding: 10px 25px;
+          font-family: var(--font-montserrat);
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          color: var(--gold);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .pag-btn:hover:not(:disabled) {
+          background: var(--gold);
+          color: #fff;
+        }
+        .pag-btn:disabled {
+          opacity: 0.35;
+          border-color: var(--border);
+          color: var(--grey);
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+          .pagination-bottom {
+            flex-direction: column;
+            gap: 15px;
+            padding-top: 20px;
+          }
+          .pag-btn {
+            width: 100%;
+            text-align: center;
+          }
         }
       `}</style>
     </div>

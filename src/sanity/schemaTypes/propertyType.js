@@ -53,6 +53,14 @@ export const propertyType = defineType({
       of: [{ type: 'image', options: { hotspot: true } }],
     }),
     defineField({
+      name: 'video',
+      title: 'Property Video',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

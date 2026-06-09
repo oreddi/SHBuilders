@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 const Footer = () => (
-  <footer id="contact" className="reveal in">
-    <div className="inner ft-grid" style={{display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '80px', paddingBottom: '60px'}}>
+  <footer id="contact" className="reveal in" style={{background: 'var(--navy)', padding: '120px 0 60px'}}>
+    <div className="inner ft-grid">
       <div>
         <div className="ft-logo" style={{fontFamily: 'var(--serif)', fontSize: '28px', color: '#fff', letterSpacing: '4px', marginBottom: '20px'}}>
           SHBUILDERS
@@ -29,8 +29,8 @@ const Footer = () => (
         </ul>
       </div>
     </div>
-    <div className="ft-bottom" style={{borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-      <p className="ft-copy" style={{color: 'rgba(255,255,255,0.3)', fontSize: '12px'}}>© 2026 SHBuilders. All rights reserved.</p>
+    <div className="inner ft-bottom">
+      <p className="ft-copy" style={{color: 'rgba(255,255,255,0.3)', fontSize: '12px', margin: 0}}>© 2026 SHBuilders. All rights reserved.</p>
       <a href="#" style={{color: 'rgba(255,255,255,0.3)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '2px'}}>Back to Top</a>
     </div>
   </footer>

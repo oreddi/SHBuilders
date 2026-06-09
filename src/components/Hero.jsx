@@ -12,18 +12,15 @@ const Hero = () => {
   ]);
 
   useEffect(() => {
-    fetch('/api/projects')
+    // Try to fetch hero slides from Sanity first, fall back to local images
+    fetch('/api/hero-slides')
       .then(res => res.json())
       .then(data => {
-        if (data && data.length >= 3) {
-          setSlides([
-            { img: data[0].img, name: data[0].name },
-            { img: data[1].img, name: data[1].name },
-            { img: data[2].img, name: data[2].name }
-          ]);
+        if (data && data.length >= 1) {
+          setSlides(data.map(s => ({ img: s.imageUrl, name: s.title })));
         }
       })
-      .catch(err => console.error("Hero failed to fetch", err));
+      .catch(err => console.log("Using default hero images"));
   }, []);
 
   useEffect(() => {
