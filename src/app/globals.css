@@ -283,12 +283,15 @@ img {
 .proj-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 20px;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 0 40px;
   margin-top: 60px;
 }
 
 .proj-grid .proj-card {
-  height: 500px;
+  height: 550px;
 }
 
 /* DYNAMIC TUCKMAN GRID */
@@ -525,7 +528,8 @@ footer {
     gap: 60px;
   }
 
-  .proj-grid, .proj-grid-dynamic {
+  .proj-grid,
+  .proj-grid-dynamic {
     grid-template-columns: 1fr 1fr !important;
     gap: 20px !important;
   }
@@ -555,10 +559,13 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .proj-grid, .proj-grid-dynamic {
+
+  .proj-grid,
+  .proj-grid-dynamic {
     grid-template-columns: 1fr !important;
     gap: 30px !important;
   }
+
   .proj-card,
   .proj-card.large,
   .proj-card.small {
@@ -859,8 +866,15 @@ footer {
 }
 
 @keyframes pulse-urgent {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .kanban-add-btn {
@@ -903,33 +917,43 @@ html {
     padding: 0 24px !important;
     height: 80px !important;
   }
+
   .nav.scrolled {
     height: 70px !important;
   }
+
   .nav-logo {
     font-size: 20px !important;
     letter-spacing: 2px !important;
   }
+
   .hero-content {
     padding: 0 24px !important;
   }
+
   .hero-content h1 {
     font-size: clamp(32px, 8vw, 44px) !important;
     line-height: 1.2 !important;
   }
+
   .sec {
     padding: 60px 0 !important;
   }
+
   .inner {
     padding: 0 24px !important;
   }
-  
+
   /* Collapse Portfolio Grid on Homepage & Portfolio Page */
-  .proj-grid-dynamic, .proj-grid {
+  .proj-grid-dynamic,
+  .proj-grid {
     grid-template-columns: 1fr !important;
     gap: 30px !important;
   }
-  .proj-card.large, .proj-card.small, .proj-card {
+
+  .proj-card.large,
+  .proj-card.small,
+  .proj-card {
     grid-column: span 1 !important;
     height: 250px !important;
   }
@@ -944,11 +968,13 @@ html {
   footer {
     padding: 60px 24px 30px !important;
   }
+
   .ft-grid {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
     padding-bottom: 40px !important;
   }
+
   .ft-bottom {
     flex-direction: column !important;
     gap: 20px !important;
