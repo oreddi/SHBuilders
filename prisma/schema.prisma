@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────
+// CONSTRUCTION PM APP MODELS
+// ─────────────────────────────────────────
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  status      String   @default("active") // active, completed, archived
+  description String?
+  address     String?
+  clientName  String?
+  startDate   DateTime?
+  targetEnd   DateTime?
+  budget      Float?
+  phases      Phase[]
+  materials   Material[]
+  activities  Activity[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Phase {
+  id        String   @id @default(cuid())
+  name      String   // site_prep, foundation, framing, roofing, mep, insulation, drywall, finishes, fixtures, exterior, punch_list, closeout
+  order     Int
+  startDate DateTime?
+  endDate   DateTime?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id              String   @id @default(cuid())
+  title           String
+  description     String?
+  status          String   @default("todo") // not_started, todo, in_progress, blocked, completed
+  priority        String   @default("medium") // low, medium, high, urgent
+  phaseId         String
+  phase           Phase    @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  assignee        String?
+  dueDate         DateTime?
+  estimatedHours  Float?
+  actualHours     Float?
+  tags            String?   // comma-separated tags
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Material {
+  id               String   @id @default(cuid())
+  name             String
+  quantityNeeded   Float    @default(0)
+  quantityOrdered  Float    @default(0)
+  quantityOnSite   Float    @default(0)
+  quantityInstalled Float   @default(0)
+  unit             String   // sqft, pieces, linear_ft, cubic_yd, gallons, etc.
+  status           String   @default("not_ordered") // not_ordered, quote_requested, ordered, partially_delivered, delivered, installed, returned
+  projectId        String
+  project          Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  supplier         String?
+  expectedDelivery DateTime?
+  unitCost         Float?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  type      String   // status_change, comment, assignment, material_update, phase_update
+  message   String
+  author    String?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  metadata  String?  // JSON string for extra data
+  createdAt DateTime @default(now())
+}
+
+// ─────────────────────────────────────────
+// NEXTAUTH MODELS (RBAC)
+// ─────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("VIEWER") // ADMIN, VIEWER
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

@@ -1,0 +1,120 @@
+# SH Builders — Project Status Report
+**Date:** June 4, 2026 · **Assessed from:** Codebase at `c:\SHBUILDERS GITOREDDI\SHBuilders`
+
+---
+
+## Overall Progress Summary
+
+| Workstream | Status | Estimated Completion |
+|---|---|---|
+| **WS1 — Corporate Website** | 🟢 Mostly Built | **~60%** |
+| **WS2 — Admin Portal** | 🟡 Foundations Only | **~15%** |
+| **WS3 — Construction PM App** | 🟢 Core Features Built | **~85%** |
+| **WS4 — Social & Marketing Ops** | 🔴 Not Started | **0%** |
+
+> [!IMPORTANT]
+> The project started on **April 29, 2026**. Based on the 14-week plan, the project is currently in **Week 5–6**. With the recent completions of the Kanban board, PM APIs, and SEO foundation, the actual build progress is now perfectly on track with the schedule.
+
+---
+
+## Workstream 1 — Corporate Website (~60% Complete)
+
+### ✅ What's DONE
+
+| Deliverable | Status |
+|---|---|
+| **Next.js App Router setup** | ✅ Done |
+| **Homepage** with all core sections | ✅ Done |
+| **Portfolio grid & detail pages** | ✅ Done |
+| **Company/About page** | ✅ Done |
+| **Design system** (CSS variables) | ✅ Done |
+| **Responsive mobile hamburger menu** | ✅ Done |
+| **Vercel deployment** | ✅ Done |
+| **Contact form backend** (Resend email) | ✅ Done *(Added June 4)* |
+| **SEO foundation** (meta tags, OG, JSON-LD) | ✅ Done *(Added June 4)* |
+| **Sitemap + robots.txt** | ✅ Done *(Added June 4)* |
+
+### 🟡 What's PARTIALLY Done
+
+| Deliverable | Gap |
+|---|---|
+| **Box.com integration** | Working, but fragile. Needs migration to Sanity. |
+| **Portfolio filtering** | UI exists, needs real categories mapped. |
+| **Responsive design** | Needs full QA pass across all breakpoints. |
+
+### ❌ What's NOT Started
+
+| Deliverable | Notes |
+|---|---|
+| **Image optimization** | Local images are massive (9–14MB) |
+| **GA4 + Vercel Analytics** integration | Not configured |
+| **Core Web Vitals tuning** | Not tested |
+| **Accessibility audit** | Not done |
+
+---
+
+## Workstream 2 — Admin Portal (~15% Complete)
+
+### ✅ What's DONE
+
+| Deliverable | Status |
+|---|---|
+| **Sanity Studio configured** at `/admin` | ✅ Done |
+| **Schemas** (property, testimonial, team) | ✅ Done |
+
+### ❌ What's NOT Started
+
+| Deliverable | Notes |
+|---|---|
+| **Authentication** | No auth — Sanity Studio is open |
+| **Website reads from Sanity** | Website still uses Box.com |
+| **Media library** | Not built |
+
+---
+
+## Workstream 3 — Construction PM App (~85% Complete)
+
+### ✅ What's DONE
+
+| Deliverable | Status |
+|---|---|
+| **Prisma schema** (Project, Phase, Task, Material, Activity) | ✅ Done |
+| **SQLite database** with seed data | ✅ Done |
+| **Project Dashboard** with search/filter | ✅ Done |
+| **Project Creation** (auto-generates 12 phases) | ✅ Done *(Added June 4)* |
+| **Kanban drag-and-drop** (`@dnd-kit`) | ✅ Done *(Added June 4)* |
+| **Task CRUD** (modal for edit/create/delete) | ✅ Done *(Added June 4)* |
+| **Materials UI** (inventory tracking lifecycle) | ✅ Done *(Added June 4)* |
+| **Activity Log** (automated timeline history) | ✅ Done *(Added June 4)* |
+| **PM API routes** (full REST backend) | ✅ Done *(Added June 4)* |
+
+### ❌ What's NOT Started
+
+| Deliverable | Notes |
+|---|---|
+| **PostgreSQL Migration** | Currently using SQLite for dev |
+| **Authentication** | Dashboard is fully open |
+| **File attachments** (drawings, RFIs) | Not built |
+| **Notifications** (due-soon emails) | Not implemented |
+
+---
+
+## Workstream 4 — Social & Marketing Ops (0% Complete)
+*All tasks in this workstream (Brand guide, email marketing, Meta Pixel, content calendar) remain not started. They are content deliverables that can run in parallel with the code.*
+
+---
+
+## What Needs To Be Done — Prioritized Roadmap
+
+### 🔴 Phase 1: Critical Remaining Tasks
+1. **Migrate website data from Box → Sanity** — Wire portfolio to read from Sanity
+2. **Image optimization** — Compress all local hero images
+3. **Add authentication** — Clerk or NextAuth for admin portal + PM app
+4. **Migrate database** — SQLite → PostgreSQL (Neon)
+
+### 🟡 Phase 2: Polish & Complete
+5. **Phase progress tracking** — Phase-level completion percentages
+6. **File attachments** — Add Azure/S3 blob storage for PM app
+7. **GA4 + Vercel Analytics + Meta Pixel** setup
+8. **Accessibility & Core Web Vitals audit**
+9. **Mobile QA** across all breakpoints
