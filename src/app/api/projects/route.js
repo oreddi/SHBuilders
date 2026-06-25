@@ -8,6 +8,8 @@ function urlFor(source) {
   return builder.image(source);
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     // The exact 5 properties the user wants featured on the homepage (ordered list of slugs)
@@ -39,7 +41,7 @@ export async function GET() {
       const formatted = sortedProperties.map(p => ({
         id: p.slug || p._id,
         name: p.name,
-        img: p.mainImage && p.mainImage.asset ? urlFor(p.mainImage).width(1600).quality(85).url() : '/images/placeholder.jpg',
+        img: p.mainImage && p.mainImage.asset ? urlFor(p.mainImage).width(2400).quality(100).url() : '/images/placeholder.jpg',
         cat: p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1) : 'Custom Home',
       }));
 

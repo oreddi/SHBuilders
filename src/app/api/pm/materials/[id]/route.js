@@ -1,8 +1,12 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // PATCH /api/pm/materials/[id] — Update material (quantity, status, etc.)
 export async function PATCH(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -54,6 +58,9 @@ export async function PATCH(request, { params }) {
 
 // DELETE /api/pm/materials/[id]
 export async function DELETE(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     const material = await prisma.material.findUnique({ where: { id } });

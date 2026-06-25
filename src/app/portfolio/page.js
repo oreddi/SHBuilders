@@ -20,7 +20,7 @@ export default function PortfolioPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 9; // 3 columns * 3 rows = 9 items per page
+  const itemsPerPage = 12; // 3 columns * 4 rows = 12 items per page
 
   useEffect(() => {
     // Reads from Sanity via /api/portfolio

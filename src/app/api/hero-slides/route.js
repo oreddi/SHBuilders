@@ -8,6 +8,8 @@ function urlFor(source) {
   return builder.image(source);
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const slides = await client.fetch(
@@ -22,7 +24,7 @@ export async function GET() {
     const formatted = slides.map(slide => ({
       id: slide._id,
       title: slide.title,
-      imageUrl: urlFor(slide.image).width(1920).height(1080).quality(85).format('webp').url(),
+      imageUrl: urlFor(slide.image).width(2400).height(1350).quality(95).format('webp').url(),
       order: slide.order,
     }));
 

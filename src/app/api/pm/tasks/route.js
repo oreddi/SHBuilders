@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -5,6 +6,9 @@ export const dynamic = 'force-dynamic';
 
 // POST /api/pm/tasks — Create a new task
 export async function POST(request) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const body = await request.json();
     const { title, description, phaseId, priority, assignee, dueDate, estimatedHours, tags } = body;

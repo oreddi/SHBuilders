@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -5,6 +6,9 @@ export const dynamic = 'force-dynamic';
 
 // PATCH /api/pm/tasks/[id] — Update a task (status, details, etc.)
 export async function PATCH(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -69,6 +73,9 @@ export async function PATCH(request, { params }) {
 
 // DELETE /api/pm/tasks/[id] — Delete a task
 export async function DELETE(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
 

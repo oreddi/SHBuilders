@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -5,6 +6,9 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/pm/projects — List all projects with phase/task summary
 export async function GET() {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     // Check if the DATABASE_URL is the default broken pooler without a tenant ID or if it is the IPv6 one that fails locally
     if (process.env.DATABASE_URL?.includes('pooler.supabase.com') || process.env.DATABASE_URL?.includes('db.urtqpnnlbutqzoggxpgg.supabase.co')) {
@@ -50,6 +54,10 @@ export async function GET() {
 
 // POST /api/pm/projects — Create a new project with default phases
 export async function POST(request) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (session.user.role !== 'ADMIN') return new NextResponse("Forbidden: Admins only", { status: 403 });
+
   try {
     const body = await request.json();
     const { name, description, address, clientName, startDate, targetEnd, budget } = body;

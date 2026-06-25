@@ -1,8 +1,12 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/pm/projects/[id] — Get single project with all relations
 export async function GET(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     const project = await prisma.project.findUnique({
@@ -39,6 +43,9 @@ export async function GET(request, { params }) {
 
 // PATCH /api/pm/projects/[id] — Update project details
 export async function PATCH(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -84,6 +91,9 @@ export async function PATCH(request, { params }) {
 
 // DELETE /api/pm/projects/[id] — Delete project and all related data
 export async function DELETE(request, { params }) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { id } = await params;
     await prisma.project.delete({ where: { id } });

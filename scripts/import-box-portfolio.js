@@ -12,6 +12,7 @@
  * Run: node --env-file=.env.local scripts/import-box-portfolio.js
  */
 
+require('dotenv').config({ path: '.env.local' });
 const { createClient } = require('@sanity/client');
 const sharp = require('sharp');
 const https = require('https');
@@ -67,8 +68,8 @@ function downloadFile(url) {
 async function optimizeImage(buffer) {
   try {
     return await sharp(buffer)
-      .resize({ width: 2000, height: 2000, fit: 'inside', withoutEnlargement: true })
-      .jpeg({ quality: 80, progressive: true })
+      .resize({ width: 3840, height: 3840, fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: 95, progressive: true })
       .toBuffer();
   } catch (err) {
     console.log(` [Optimize error: ${err.message}, using original]`);
@@ -148,21 +149,27 @@ async function run() {
   }`);
   console.log(`   Found ${sanityProperties.length} existing properties in Sanity.\n`);
 
-  // 2. Fetch main Box folder
-  const mainFolderUrl = 'https://app.box.com/s/9shlu6n0hhs5qnwq4gk767x6p25uzh0a/folder/136585239866';
-  console.log('📦 Scraping Box main folder index...');
-  const mainData = await fetchFromBox(mainFolderUrl);
+  // 2. Fetch main Box folders (Paginated)
+  const folders = [];
   const regex = /Box\.postStreamData = (\{.*?\});/s;
-  const match = mainData.match(regex);
-  if (!match) {
-    console.error('❌ Could not parse Box index page data.');
-    process.exit(1);
+  console.log('📦 Scraping Box main folder index across multiple pages...');
+  
+  for (let page = 1; page <= 5; page++) {
+    const mainFolderUrl = `https://app.box.com/s/9shlu6n0hhs5qnwq4gk767x6p25uzh0a?page=${page}`;
+    const mainData = await fetchFromBox(mainFolderUrl);
+    const match = mainData.match(regex);
+    
+    if (match) {
+      const payload = JSON.parse(match[1]);
+      const items = payload['/app-api/enduserapp/shared-folder']?.items || [];
+      const pageFolders = items.filter(i => i.type === 'folder');
+      if (pageFolders.length === 0) break;
+      folders.push(...pageFolders);
+      console.log(`   Page ${page}: Found ${pageFolders.length} folders.`);
+    }
   }
-
-  const payload = JSON.parse(match[1]);
-  const items = payload['/app-api/enduserapp/shared-folder']?.items || [];
-  const folders = items.filter(i => i.type === 'folder');
-  console.log(`   Found ${folders.length} subfolders in Box.\n`);
+  
+  console.log(`   Total subfolders found across all pages: ${folders.length}\n`);
 
   // 3. Scrape and Group Files by Project
   const projectGroups = {};
@@ -250,7 +257,7 @@ async function run() {
     }
 
     // Separate images and videos
-    let imageFiles = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name)).slice(0, 20); // Limit to 20 images
+    let imageFiles = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name)); // No limit
     const videoFiles = files.filter(f => /\.(mov|mp4|m4v|avi)$/i.test(f.name));
 
     // Rearrange images to prioritize the best cover image at index 0

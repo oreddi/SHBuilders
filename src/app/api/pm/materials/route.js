@@ -1,8 +1,12 @@
+import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/pm/materials?projectId=xxx — List materials (optionally filtered by project)
 export async function GET(request) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('projectId');
@@ -28,6 +32,9 @@ export async function GET(request) {
 
 // POST /api/pm/materials — Create a new material entry
 export async function POST(request) {
+  const session = await auth();
+  if (!session) return new NextResponse("Unauthorized", { status: 401 });
+
   try {
     const body = await request.json();
     const {

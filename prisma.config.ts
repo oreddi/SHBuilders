@@ -1,5 +1,6 @@
 // Prisma 7 config — connection URL for migrations + db push
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({
