@@ -282,13 +282,13 @@ img {
 ----------------------------------- */
 .proj-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
   margin-top: 60px;
 }
 
 .proj-grid .proj-card {
-  height: 320px;
+  height: 500px;
 }
 
 /* DYNAMIC TUCKMAN GRID */

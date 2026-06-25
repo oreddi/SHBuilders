@@ -10,6 +10,7 @@ export default function ProjectDetails({ params }) {
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
+  const [nextProject, setNextProject] = useState(null);
 
   // Form states
   const [formName, setFormName] = useState("");
@@ -32,6 +33,22 @@ export default function ProjectDetails({ params }) {
         console.error("Failed to fetch property", err);
         setLoading(false);
       });
+
+    // Fetch all projects to determine the next one
+    fetch('/api/portfolio')
+      .then(res => res.json())
+      .then(allProjects => {
+        if (Array.isArray(allProjects)) {
+          const currentIndex = allProjects.findIndex(p => p.id === slug);
+          if (currentIndex !== -1 && currentIndex < allProjects.length - 1) {
+            setNextProject(allProjects[currentIndex + 1]);
+          } else if (allProjects.length > 0 && currentIndex !== -1) {
+            // Loop back to the first one if we're at the end
+            setNextProject(allProjects[0]);
+          }
+        }
+      })
+      .catch(err => console.error("Failed to fetch all projects for next link", err));
   }, [slug]);
 
   const handlePrev = () => {
@@ -305,6 +322,21 @@ export default function ProjectDetails({ params }) {
                   </div>
                 </div>
               </div>
+
+              {/* Next Project Section */}
+              {nextProject && (
+                <div className="reveal in" style={{ marginTop: '80px', textAlign: 'center', borderTop: '1px solid var(--border)', paddingTop: '60px' }}>
+                  <span className="tag" style={{ color: 'var(--grey)', marginBottom: '15px', display: 'block' }}>Up Next</span>
+                  <Link href={`/portfolio/${nextProject.id}`} style={{ textDecoration: 'none', display: 'inline-block' }}>
+                    <h2 className="h2" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--navy)', marginBottom: '15px', transition: 'color 0.3s ease' }}
+                        onMouseEnter={(e) => e.target.style.color = 'var(--gold)'}
+                        onMouseLeave={(e) => e.target.style.color = 'var(--navy)'}
+                    >
+                      {nextProject.name} →
+                    </h2>
+                  </Link>
+                </div>
+              )}
             </>
           )}
 
