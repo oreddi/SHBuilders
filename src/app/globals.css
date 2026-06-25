@@ -281,17 +281,19 @@ img {
    PORTFOLIO SHOWCASE (UNIFORM GRID)
 ----------------------------------- */
 .proj-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  padding: 0 40px;
-  margin-top: 60px;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  padding: 0 40px !important;
+  margin-top: 60px !important;
+  box-sizing: border-box !important;
 }
 
 .proj-grid .proj-card {
-  height: 550px;
+  height: 550px !important;
+  width: 100% !important;
 }
 
 /* DYNAMIC TUCKMAN GRID */
@@ -314,15 +316,17 @@ img {
 
 .proj-card {
   position: relative;
-  overflow: hidden;
+  overflow: hidden !important;
   cursor: pointer;
+  display: block !important;
 }
 
 /* Image Scale Animation */
 .proj-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
   transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
