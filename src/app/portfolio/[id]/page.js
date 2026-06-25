@@ -10,11 +10,13 @@ export default function ProjectDetails({ params }) {
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
+  const [nextProject, setNextProject] = useState(null);
 
   // Form states
   const [formName, setFormName] = useState("");
   const [formEmail, setFormEmail] = useState("");
   const [formPhone, setFormPhone] = useState("");
+  const [formBudget, setFormBudget] = useState("");
   const [formMessage, setFormMessage] = useState("");
 
   useEffect(() => {
@@ -32,6 +34,22 @@ export default function ProjectDetails({ params }) {
         console.error("Failed to fetch property", err);
         setLoading(false);
       });
+
+    // Fetch all projects to determine the next one
+    fetch('/api/portfolio')
+      .then(res => res.json())
+      .then(allProjects => {
+        if (Array.isArray(allProjects)) {
+          const currentIndex = allProjects.findIndex(p => p.id === slug);
+          if (currentIndex !== -1 && currentIndex < allProjects.length - 1) {
+            setNextProject(allProjects[currentIndex + 1]);
+          } else if (allProjects.length > 0 && currentIndex !== -1) {
+            // Loop back to the first one if we're at the end
+            setNextProject(allProjects[0]);
+          }
+        }
+      })
+      .catch(err => console.error("Failed to fetch all projects for next link", err));
   }, [slug]);
 
   const handlePrev = () => {
@@ -52,6 +70,7 @@ export default function ProjectDetails({ params }) {
           name: formName,
           email: formEmail,
           phone: formPhone,
+          budget: formBudget,
           message: `[Property Inquiry: ${property?.name || slug}] ${formMessage}`,
         }),
       });
@@ -59,7 +78,7 @@ export default function ProjectDetails({ params }) {
       console.error('Inquiry submit error:', err);
     }
     setInquirySubmitted(true);
-    setFormName(""); setFormEmail(""); setFormPhone(""); setFormMessage("");
+    setFormName(""); setFormEmail(""); setFormPhone(""); setFormBudget(""); setFormMessage("");
     setTimeout(() => setInquirySubmitted(false), 5000);
   };
 
@@ -278,10 +297,23 @@ export default function ProjectDetails({ params }) {
                               style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit' }} />
                           </div>
                         </div>
-                        <div>
-                          <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Phone (Optional)</label>
-                          <input type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} placeholder="(423) 555-0199"
-                            style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit' }} />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="form-row-split">
+                          <div>
+                            <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Phone (Optional)</label>
+                            <input type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} placeholder="(423) 555-0199"
+                              style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit' }} />
+                          </div>
+                          <div>
+                            <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Budget Range</label>
+                            <select value={formBudget} onChange={(e) => setFormBudget(e.target.value)} required
+                              style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit' }}>
+                              <option value="" disabled style={{ color: '#000' }}>Select a range</option>
+                              <option value="$500k - $1M" style={{ color: '#000' }}>$500k - $1M</option>
+                              <option value="$1M - $2M" style={{ color: '#000' }}>$1M - $2M</option>
+                              <option value="$2M - $5M" style={{ color: '#000' }}>$2M - $5M</option>
+                              <option value="$5M+" style={{ color: '#000' }}>$5M+</option>
+                            </select>
+                          </div>
                         </div>
                         <div>
                           <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Project Message</label>
@@ -305,6 +337,21 @@ export default function ProjectDetails({ params }) {
                   </div>
                 </div>
               </div>
+
+              {/* Next Project Section */}
+              {nextProject && (
+                <div className="reveal in" style={{ marginTop: '80px', textAlign: 'center', borderTop: '1px solid var(--border)', paddingTop: '60px' }}>
+                  <span className="tag" style={{ color: 'var(--grey)', marginBottom: '15px', display: 'block' }}>Up Next</span>
+                  <Link href={`/portfolio/${nextProject.id}`} style={{ textDecoration: 'none', display: 'inline-block' }}>
+                    <h2 className="h2" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--navy)', marginBottom: '15px', transition: 'color 0.3s ease' }}
+                        onMouseEnter={(e) => e.target.style.color = 'var(--gold)'}
+                        onMouseLeave={(e) => e.target.style.color = 'var(--navy)'}
+                    >
+                      {nextProject.name} →
+                    </h2>
+                  </Link>
+                </div>
+              )}
             </>
           )}
 
