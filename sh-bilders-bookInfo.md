@@ -378,4 +378,4 @@ Pillar	A category of content with a consistent purpose and tone
 LCP / CLS / INP	Google's Core Web Vitals — Largest Contentful Paint, Cumulative Layout Shift, Interaction to Next Paint
  
 Confidentiality
-This document is confidential and is provided for the sole purpose of evaluation by SH Builders. It contains proposed approaches, data structures, and operational practices that represent the Partner's professional work product. Distribution outside of SH Builders' authorized review team requires written consent.
+This document is cohttps://sh-builders.vercel.app/portfolionfidential and is provided for the sole purpose of evaluation by SH Builders. It contains proposed approaches, data structures, and operational practices that represent the Partner's professional work product. Distribution outside of SH Builders' authorized review team requires written consent.
