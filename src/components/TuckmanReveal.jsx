@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 export default function TuckmanReveal() {
@@ -8,7 +8,19 @@ export default function TuckmanReveal() {
   const isInView = useInView(containerRef, { once: false, amount: 0.3 });
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   
-  const videoUrl = "https://app.box.com/index.php?rm=box_download_shared_file&shared_name=9shlu6n0hhs5qnwq4gk767x6p25uzh0a&file_id=f_1447495287754";
+  const fallbackVideoUrl = "https://app.box.com/index.php?rm=box_download_shared_file&shared_name=9shlu6n0hhs5qnwq4gk767x6p25uzh0a&file_id=f_1447495287754";
+  const [videoUrl, setVideoUrl] = useState(fallbackVideoUrl);
+
+  useEffect(() => {
+    fetch('/api/homepage-video')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.videoUrl) {
+          setVideoUrl(data.videoUrl);
+        }
+      })
+      .catch(err => console.log("Failed to fetch sanity video, using fallback"));
+  }, []);
 
   return (
     <div 
