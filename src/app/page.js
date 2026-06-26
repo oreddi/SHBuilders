@@ -74,8 +74,7 @@ export default function Home() {
                         sizes={idx < 2 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
                         style={{ objectFit: 'cover' }}
                         loading="lazy"
-                        unoptimized={true}
-                        quality={100}
+                        quality={90}
                       />
                       <div className="proj-overlay">
                         <div className="proj-info">

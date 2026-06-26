@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -38,16 +39,22 @@ const Hero = () => {
             key={idx}
             className={`hero-slide ${idx === currentSlide ? 'active' : ''}`}
             style={{
-              backgroundImage: `url('${slide.img}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
               zIndex: idx === currentSlide ? 1 : 0,
               opacity: idx === currentSlide ? 1 : 0,
               position: 'absolute',
               inset: 0,
               transition: 'opacity 2s ease'
             }}
-          />
+          >
+            <Image
+              src={slide.img}
+              alt={slide.name || "Hero Image"}
+              fill
+              priority={idx === 0}
+              quality={90}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </div>
         ))}
       </div>
       <div className="hero-overlay" />
