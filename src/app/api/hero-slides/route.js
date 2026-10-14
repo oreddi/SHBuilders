@@ -8,7 +8,7 @@ function urlFor(source) {
   return builder.image(source);
 }
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache Sanity content for 5 minutes
 
 export async function GET() {
   try {

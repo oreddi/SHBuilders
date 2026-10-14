@@ -8,3 +8,7 @@ export const metadata = {
       "Our story of building trust and value through precision, integrity, and architectural excellence.",
   },
 };
+
+export default function Layout({ children }) {
+  return children;
+}

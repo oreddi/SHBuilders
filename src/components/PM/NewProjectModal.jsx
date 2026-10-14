@@ -10,11 +10,13 @@ export default function NewProjectModal({ onClose, onCreated }) {
   const [address, setAddress] = useState('');
   const [clientName, setClientName] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) return;
     setSaving(true);
+    setError('');
 
     try {
       const res = await fetch('/api/pm/projects', {
@@ -32,9 +34,14 @@ export default function NewProjectModal({ onClose, onCreated }) {
         const project = await res.json();
         onCreated?.(project);
         onClose();
+      } else if (res.status === 401 || res.status === 403) {
+        setError('Only admins can create projects. Please log in as an admin.');
+      } else {
+        setError('Could not create the project. Please try again.');
       }
     } catch (err) {
       console.error('Failed to create project:', err);
+      setError('Network error. Check your connection and try again.');
     }
 
     setSaving(false);
@@ -152,6 +159,9 @@ export default function NewProjectModal({ onClose, onCreated }) {
             <p style={{ fontSize: '12px', color: 'var(--grey)', margin: '4px 0 0' }}>
               12 standard construction phases will be created automatically.
             </p>
+            {error && (
+              <p role="alert" style={{ fontSize: '13px', color: '#DC2626', margin: 0 }}>{error}</p>
+            )}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '8px' }}>
               <button type="button" onClick={onClose} style={{ padding: '10px 24px', border: '1px solid var(--border)', borderRadius: '6px', background: '#fff', cursor: 'pointer', fontSize: '13px' }}>
                 Cancel

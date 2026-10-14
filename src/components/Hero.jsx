@@ -7,9 +7,9 @@ import Image from 'next/image';
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState([
-    { img: "/images/IsabelWayWOutside (1).jpg", name: "Custom Build" },
-    { img: "/images/WildwoodAveraInside.jpg", name: "Luxury Interior" },
-    { img: "/images/8095Vane,Inside.jpg", name: "Refined Living" }
+    { img: "/images/PherinWoodExteriors.jpg", name: "Custom Build" },
+    { img: "/images/Alydar Loop inside.jpg", name: "Luxury Interior" },
+    { img: "/images/RidgeField PI Exteriors.jpg", name: "Refined Living" }
   ]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Hero = () => {
               alt={slide.name || "Hero Image"}
               fill
               priority={idx === 0}
-              quality={90}
+              quality={75}
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
           </div>

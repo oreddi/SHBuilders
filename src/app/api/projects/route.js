@@ -8,7 +8,7 @@ function urlFor(source) {
   return builder.image(source);
 }
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache Sanity content for 5 minutes
 
 export async function GET() {
   try {
@@ -41,7 +41,7 @@ export async function GET() {
       const formatted = sortedProperties.map(p => ({
         id: p.slug || p._id,
         name: p.name,
-        img: p.mainImage && p.mainImage.asset ? urlFor(p.mainImage).width(2400).quality(100).url() : '/images/placeholder.jpg',
+        img: p.mainImage && p.mainImage.asset ? urlFor(p.mainImage).width(1600).quality(80).url() : '/images/PherinWoodExteriors.jpg',
         cat: p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1) : 'Custom Home',
       }));
 
@@ -51,10 +51,10 @@ export async function GET() {
     // Fallback: If Sanity fails or is empty, return local images
     const AVAILABLE_IMAGES = [
       "/images/PherinWoodExteriors.jpg",
-      "/images/IsabelWayWOutside (1).jpg",
-      "/images/Wildwood Ave.jpg",
       "/images/Alydar Loop inside.jpg",
-      "/images/WildwoodAveraInside.jpg"
+      "/images/JOHNSONRDW.jpg",
+      "/images/PersimmonDrKitchen.jpg",
+      "/images/RidgeField PI Exteriors.jpg"
     ];
 
     const NAMES = [

@@ -6,12 +6,13 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 export default function TuckmanReveal() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.3 });
+  // Only start downloading the video once the visitor scrolls near it.
+  const isNearView = useInView(containerRef, { once: true, margin: '600px 0px' });
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  
-  const fallbackVideoUrl = "https://app.box.com/index.php?rm=box_download_shared_file&shared_name=9shlu6n0hhs5qnwq4gk767x6p25uzh0a&file_id=f_1447495287754";
-  const [videoUrl, setVideoUrl] = useState(fallbackVideoUrl);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
+    if (!isNearView) return;
     fetch('/api/homepage-video')
       .then(res => res.json())
       .then(data => {
@@ -19,8 +20,8 @@ export default function TuckmanReveal() {
           setVideoUrl(data.videoUrl);
         }
       })
-      .catch(err => console.log("Failed to fetch sanity video, using fallback"));
-  }, []);
+      .catch(err => console.log("Failed to fetch homepage video"));
+  }, [isNearView]);
 
   return (
     <div 
@@ -46,15 +47,15 @@ export default function TuckmanReveal() {
           pointerEvents: 'none'
         }}
       >
-        <video 
+        {videoUrl && <video
           src={videoUrl}
           autoPlay 
           muted 
           loop 
           playsInline
-          onCanPlayThrough={() => setIsVideoLoaded(true)}
+          onCanPlay={() => setIsVideoLoaded(true)}
           style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: isVideoLoaded ? 1 : 0, transition: 'opacity 1s ease' }}
-        />
+        />}
       </div>
 
       {/* Constructive Loading Spinner */}

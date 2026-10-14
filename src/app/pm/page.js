@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CheckSquare, Layout, Plus, Search, Building2 } from 'lucide-react';
+import { signOut } from 'next-auth/react';
+import { CheckSquare, Layout, Plus, Search, Building2, Users, LogOut } from 'lucide-react';
 import NewProjectModal from '@/components/PM/NewProjectModal';
 
 export default function PMDashboard() {
@@ -21,38 +22,11 @@ export default function PMDashboard() {
     try {
       const res = await fetch('/api/pm/projects');
       const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        setProjects(data);
-      } else {
-        // Fallback dummy project if DB is empty or failing
-        setProjects([{
-          id: 'dummy-1',
-          name: 'Pherin Wood Estate (Demo)',
-          status: 'active',
-          description: 'A 4,500 sqft custom luxury build.',
-          address: 'Chattanooga, TN',
-          phases: [
-            { name: 'Site Preparation', tasks: [{ status: 'completed' }, { status: 'completed' }] },
-            { name: 'Foundation', tasks: [{ status: 'completed' }, { status: 'todo' }] },
-            { name: 'Framing', tasks: [{ status: 'todo' }] },
-          ]
-        }]);
-      }
+      if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
+      setProjects(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Failed to fetch projects:', err);
-      // Fallback on error
-      setProjects([{
-        id: 'dummy-1',
-        name: 'Pherin Wood Estate (Demo)',
-        status: 'active',
-        description: 'A 4,500 sqft custom luxury build.',
-        address: 'Chattanooga, TN',
-        phases: [
-          { name: 'Site Preparation', tasks: [{ status: 'completed' }, { status: 'completed' }] },
-          { name: 'Foundation', tasks: [{ status: 'completed' }, { status: 'todo' }] },
-          { name: 'Framing', tasks: [{ status: 'todo' }] },
-        ]
-      }]);
+      setProjects([]);
     }
     setLoading(false);
   };
@@ -76,13 +50,29 @@ export default function PMDashboard() {
             <h1 className="h2" style={{ marginBottom: '10px' }}>Active Builds</h1>
             <p className="body-p" style={{ margin: 0 }}>Tracking craftsmanship across the project lifecycle.</p>
           </div>
-          <button
-            className="btn-outline"
-            style={{ padding: '12px 30px', display: 'flex', alignItems: 'center', gap: '8px' }}
-            onClick={() => setShowModal(true)}
-          >
-            <Plus size={16} /> New Project
-          </button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <Link
+              href="/pm/team"
+              className="btn-outline"
+              style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <Users size={16} /> Team
+            </Link>
+            <button
+              className="btn-outline"
+              style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+              onClick={() => signOut({ callbackUrl: '/login' })}
+            >
+              <LogOut size={16} /> Log out
+            </button>
+            <button
+              className="btn-outline"
+              style={{ padding: '12px 30px', display: 'flex', alignItems: 'center', gap: '8px' }}
+              onClick={() => setShowModal(true)}
+            >
+              <Plus size={16} /> New Project
+            </button>
+          </div>
         </div>
 
         {/* Stats Row */}

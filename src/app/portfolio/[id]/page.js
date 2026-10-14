@@ -10,6 +10,7 @@ export default function ProjectDetails({ params }) {
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
+  const [inquiryError, setInquiryError] = useState("");
   const [nextProject, setNextProject] = useState(null);
 
   // Form states
@@ -62,8 +63,9 @@ export default function ProjectDetails({ params }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setInquiryError("");
     try {
-      await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -74,8 +76,14 @@ export default function ProjectDetails({ params }) {
           message: `[Property Inquiry: ${property?.name || slug}] ${formMessage}`,
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to submit inquiry');
+      }
     } catch (err) {
       console.error('Inquiry submit error:', err);
+      setInquiryError(err.message || 'Something went wrong. Please try again or email us directly.');
+      return;
     }
     setInquirySubmitted(true);
     setFormName(""); setFormEmail(""); setFormPhone(""); setFormBudget(""); setFormMessage("");
@@ -321,6 +329,9 @@ export default function ProjectDetails({ params }) {
                             placeholder={`Tell us about your build timeline or thoughts regarding the ${categoryLabel.toLowerCase()} style...`}
                             style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit', resize: 'vertical' }} />
                         </div>
+                        {inquiryError && (
+                          <p role="alert" style={{ color: '#F87171', fontSize: '13px', margin: 0 }}>{inquiryError}</p>
+                        )}
                         <button type="submit" style={{
                           background: 'var(--gold)', color: '#000', border: 'none', padding: '15px',
                           fontWeight: '600', fontFamily: 'var(--font-montserrat)', fontSize: '11px',

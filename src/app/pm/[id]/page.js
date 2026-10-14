@@ -12,64 +12,29 @@ export default async function ProjectDetailPage({ params }) {
 
   let project = null;
 
-  if (id === 'dummy-1' || (process.env.DATABASE_URL?.includes('pooler.supabase.com') && process.env.DATABASE_URL?.includes('postgres:Mp9'))) {
-    project = {
-      id: 'dummy-1',
-      name: 'Pherin Wood Estate (Demo)',
-      status: 'active',
-      description: 'A 4,500 sqft custom luxury build.',
-      address: 'Chattanooga, TN',
-      phases: [
-        { 
-          id: 'phase-1', name: 'Site Preparation', order: 1, 
-          tasks: [
-            { id: 't1', title: 'Clear lot', status: 'completed', createdAt: new Date(), updatedAt: new Date() },
-            { id: 't2', title: 'Grading', status: 'completed', createdAt: new Date(), updatedAt: new Date() }
-          ] 
-        },
-        { 
-          id: 'phase-2', name: 'Foundation', order: 2, 
-          tasks: [
-            { id: 't3', title: 'Pour concrete', status: 'completed', createdAt: new Date(), updatedAt: new Date() },
-            { id: 't4', title: 'Curing', status: 'in_progress', createdAt: new Date(), updatedAt: new Date() }
-          ] 
-        },
-        { 
-          id: 'phase-3', name: 'Framing', order: 3, 
-          tasks: [
-            { id: 't5', title: 'Lumber delivery', status: 'blocked', createdAt: new Date(), updatedAt: new Date() },
-            { id: 't6', title: 'First floor framing', status: 'todo', createdAt: new Date(), updatedAt: new Date() }
-          ] 
-        },
-      ],
-      materials: [],
-      activities: []
-    };
-  } else {
-    try {
-      project = await prisma.project.findUnique({
-        where: { id },
-        include: {
-          phases: {
-            orderBy: { order: 'asc' },
-            include: {
-              tasks: {
-                orderBy: { createdAt: 'asc' },
-              },
+  try {
+    project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        phases: {
+          orderBy: { order: 'asc' },
+          include: {
+            tasks: {
+              orderBy: { createdAt: 'asc' },
             },
           },
-          materials: {
-            orderBy: { createdAt: 'desc' },
-          },
-          activities: {
-            orderBy: { createdAt: 'desc' },
-            take: 30,
-          },
         },
-      });
-    } catch (err) {
-      console.error("Prisma error bypassed in dummy mode:", err);
-    }
+        materials: {
+          orderBy: { createdAt: 'desc' },
+        },
+        activities: {
+          orderBy: { createdAt: 'desc' },
+          take: 30,
+        },
+      },
+    });
+  } catch (err) {
+    console.error("PM project load error:", err);
   }
 
   if (!project) {
