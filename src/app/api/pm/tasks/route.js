@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request) {
   const session = await auth();
   if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (session.user.role !== 'ADMIN') return new NextResponse("Forbidden: Admins only", { status: 403 });
 
   try {
     const body = await request.json();
@@ -15,25 +16,6 @@ export async function POST(request) {
 
     if (!title || !phaseId) {
       return NextResponse.json({ error: 'Title and phaseId are required' }, { status: 400 });
-    }
-
-    // Check if the DATABASE_URL is the default broken pooler without a tenant ID
-    if (process.env.DATABASE_URL?.includes('pooler.supabase.com') && process.env.DATABASE_URL?.includes('postgres:Mp9')) {
-      console.warn("Bypassing Prisma POST due to broken Supabase pooler URL missing tenant ID.");
-      return NextResponse.json({
-        id: `mock-task-${Date.now()}`,
-        title,
-        description: description || null,
-        phaseId,
-        priority: priority || 'medium',
-        status: 'todo',
-        assignee: assignee || null,
-        dueDate: dueDate ? new Date(dueDate).toISOString() : null,
-        estimatedHours: estimatedHours ? parseFloat(estimatedHours) : null,
-        tags: tags || null,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }, { status: 201 });
     }
 
     const task = await prisma.task.create({

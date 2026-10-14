@@ -1,17 +1,27 @@
 import { NextResponse } from 'next/server';
 
+const escapeHtml = (value) =>
+  String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, email, phone, budget, message } = body;
+    const raw = body;
 
     // Validation
-    if (!name || !email || !message) {
+    if (!raw.name || !raw.email || !raw.message) {
       return NextResponse.json(
         { error: 'Name, email, and message are required' },
         { status: 400 }
       );
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw.email)) {
+      return NextResponse.json({ error: 'Please enter a valid email address' }, { status: 400 });
+    }
+
+    const [name, email, phone, budget, message] = [raw.name, raw.email, raw.phone, raw.budget, raw.message].map(
+      (v) => (v ? escapeHtml(v) : v)
+    );
 
     // If Resend API key is configured, send email
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -21,7 +31,7 @@ export async function POST(request) {
       const { Resend } = await import('resend');
       const resend = new Resend(RESEND_API_KEY);
 
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: 'SH Builders Website <onboarding@resend.dev>',
         to: [CONTACT_EMAIL],
         subject: `New Lead: ${name} — ${budget || 'Budget not specified'}`,
@@ -42,6 +52,7 @@ export async function POST(request) {
           </div>
         `,
       });
+      if (error) throw new Error(error.message);
     } else {
       // Log to console if no API key (development)
       console.log('=== NEW CONTACT FORM SUBMISSION ===');

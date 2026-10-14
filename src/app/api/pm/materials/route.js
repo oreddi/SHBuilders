@@ -34,6 +34,7 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await auth();
   if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (session.user.role !== 'ADMIN') return new NextResponse("Forbidden: Admins only", { status: 403 });
 
   try {
     const body = await request.json();

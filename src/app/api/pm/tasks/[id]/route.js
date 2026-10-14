@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function PATCH(request, { params }) {
   const session = await auth();
   if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (session.user.role !== 'ADMIN') return new NextResponse("Forbidden: Admins only", { status: 403 });
 
   try {
     const { id } = await params;
@@ -75,6 +76,7 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   const session = await auth();
   if (!session) return new NextResponse("Unauthorized", { status: 401 });
+  if (session.user.role !== 'ADMIN') return new NextResponse("Forbidden: Admins only", { status: 403 });
 
   try {
     const { id } = await params;

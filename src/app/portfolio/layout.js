@@ -8,3 +8,7 @@ export const metadata = {
       "Explore our curated collection of luxury custom-built homes and renovations.",
   },
 };
+
+export default function Layout({ children }) {
+  return children;
+}

@@ -1,5 +1,7 @@
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sh-builders.vercel.app";
 
+export const revalidate = 3600;
+
 export default async function sitemap() {
   const staticPages = [
     {
@@ -22,14 +24,20 @@ export default async function sitemap() {
     },
   ];
 
-  // In the future, dynamically add property detail pages from Sanity:
-  // const properties = await client.fetch(`*[_type == "property"]{ slug, _updatedAt }`);
-  // const propertyPages = properties.map(p => ({
-  //   url: `${SITE_URL}/portfolio/${p.slug.current}`,
-  //   lastModified: new Date(p._updatedAt),
-  //   changeFrequency: "monthly",
-  //   priority: 0.7,
-  // }));
+  let propertyPages = [];
+  try {
+    // Imported lazily so the sitemap still works if Sanity is not configured.
+    const { client } = await import("@/sanity/lib/client");
+    const properties = await client.fetch(`*[_type == "property" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`);
+    propertyPages = properties.map(p => ({
+      url: `${SITE_URL}/portfolio/${p.slug}`,
+      lastModified: new Date(p._updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
+  } catch (err) {
+    console.error("Sitemap: failed to load properties from Sanity", err);
+  }
 
-  return [...staticPages];
+  return [...staticPages, ...propertyPages];
 }
