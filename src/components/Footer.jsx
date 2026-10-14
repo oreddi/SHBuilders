@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { CONTACT, phoneHref } from '@/lib/siteConfig';
 
 const Footer = () => (
   <footer id="contact" className="reveal in" style={{background: 'var(--navy)', padding: '120px 0 60px'}}>
@@ -23,15 +24,17 @@ const Footer = () => (
       <div className="ft-col">
         <h4 style={{fontSize: '11px', color: '#fff', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '25px'}}>Contact</h4>
         <ul style={{listStyle: 'none', display: 'grid', gap: '15px'}}>
-          <li><a href="mailto:info@shbuilders.com" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>info@shbuilders.com</a></li>
-          <li><a href="tel:+19195550123" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>+1 (919) 555-0123</a></li>
-          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: '1.6'}}>North Carolina, USA</span></li>
+          <li><a href={`mailto:${CONTACT.email}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>{CONTACT.email}</a></li>
+          {CONTACT.phone && (
+            <li><a href={`tel:${phoneHref()}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>{CONTACT.phone}</a></li>
+          )}
+          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: '1.6'}}>{CONTACT.city}, {CONTACT.region}</span></li>
         </ul>
       </div>
     </div>
     <div className="inner ft-bottom">
       <p className="ft-copy" style={{color: 'rgba(255,255,255,0.3)', fontSize: '12px', margin: 0}}>© 2026 SHBuilders. All rights reserved.</p>
-      <a href="#" style={{color: 'rgba(255,255,255,0.3)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '2px'}}>Back to Top</a>
+      <a href="#top" style={{color: 'rgba(255,255,255,0.3)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '2px'}}>Back to Top</a>
     </div>
   </footer>
 );

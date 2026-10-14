@@ -4,25 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const Hero = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [slides, setSlides] = useState([
-    { img: "/images/PherinWoodExteriors.jpg", name: "Custom Build" },
-    { img: "/images/Alydar Loop inside.jpg", name: "Luxury Interior" },
-    { img: "/images/RidgeField PI Exteriors.jpg", name: "Refined Living" }
-  ]);
+const FALLBACK_SLIDES = [
+  { img: "/images/PherinWoodExteriors.jpg", name: "Custom Build" },
+  { img: "/images/Alydar Loop inside.jpg", name: "Luxury Interior" },
+  { img: "/images/RidgeField PI Exteriors.jpg", name: "Refined Living" }
+];
 
-  useEffect(() => {
-    // Try to fetch hero slides from Sanity first, fall back to local images
-    fetch('/api/hero-slides')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.length >= 1) {
-          setSlides(data.map(s => ({ img: s.imageUrl, name: s.title })));
-        }
-      })
-      .catch(err => console.log("Using default hero images"));
-  }, []);
+// heroSlides come from Sanity, loaded on the server (see src/lib/content.js)
+const Hero = ({ heroSlides = [] }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = heroSlides.length
+    ? heroSlides.map(s => ({ img: s.imageUrl, name: s.title }))
+    : FALLBACK_SLIDES;
 
   useEffect(() => {
     const timer = setInterval(() => {

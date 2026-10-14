@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Hero from '@/components/Hero';
@@ -8,29 +6,20 @@ import { Stats, About, Services, ProcessVideo, Clients } from '@/components/Home
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import TuckmanReveal from '@/components/TuckmanReveal';
+import { getFeaturedProjects, getHeroSlides, getTestimonials } from '@/lib/content';
 
-export default function Home() {
-  const [featuredProjects, setFeaturedProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+export const revalidate = 300; // re-check Sanity every 5 minutes
 
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setFeaturedProjects(data.slice(0, 5));
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch from backend", err);
-        setLoading(false);
-      });
-  }, []);
+export default async function Home() {
+  const [featuredProjects, heroSlides, testimonials] = await Promise.all([
+    getFeaturedProjects(),
+    getHeroSlides(),
+    getTestimonials(),
+  ]);
 
   return (
     <>
-      <Hero />
+      <Hero heroSlides={heroSlides} />
 
       {/* SOLID BLOCK 1: About SH Builders and Featured Collaborators */}
       <div style={{ position: 'relative', zIndex: 10, background: 'var(--white)' }}>
@@ -53,11 +42,7 @@ export default function Home() {
               </p>
             </div>
 
-            {loading ? (
-              <div style={{ textAlign: 'center', padding: '60px 0', fontFamily: 'var(--serif)', fontSize: '20px' }}>
-                Loading Projects...
-              </div>
-            ) : (
+            {featuredProjects.length > 0 && (
               <>
                 <div className="proj-grid-dynamic">
                   {featuredProjects.map((proj, idx) => (
@@ -97,7 +82,7 @@ export default function Home() {
 
         <Services />
         <ProcessVideo />
-        <Testimonials />
+        <Testimonials testimonials={testimonials} />
       </div>
 
       {/* The "Special" Contact Reveal */}

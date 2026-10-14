@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { CONTACT, phoneHref } from '@/lib/siteConfig';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -58,12 +59,16 @@ const Contact = () => {
             
             <div style={{ marginBottom: '40px' }}>
               <h4 style={{fontFamily: 'var(--serif)', fontSize: '24px', marginBottom: '10px'}}>SH Builders Headquarters</h4>
-              <p className="body-p" style={{margin: 0}}>P.O. Box 4084</p>
-              <p className="body-p" style={{margin: 0}}>Chattanooga, TN 37405</p>
+              <p className="body-p" style={{margin: 0}}>{CONTACT.streetAddress}</p>
+              <p className="body-p" style={{margin: 0}}>{CONTACT.city}, {CONTACT.region} {CONTACT.postalCode}</p>
               <p className="body-p" style={{margin: 0, marginTop: '20px'}}>
-                <a href="mailto:shbuilderstn@gmail.com" style={{color: 'var(--navy)', textDecoration: 'underline'}}>shbuilderstn@gmail.com</a>
+                <a href={`mailto:${CONTACT.email}`} style={{color: 'var(--navy)', textDecoration: 'underline'}}>{CONTACT.email}</a>
               </p>
-              <p className="body-p" style={{margin: 0}}>+1 (423) 555-0199</p>
+              {CONTACT.phone && (
+                <p className="body-p" style={{margin: 0}}>
+                  <a href={`tel:${phoneHref()}`} style={{color: 'var(--navy)'}}>{CONTACT.phone}</a>
+                </p>
+              )}
             </div>
           </div>
           

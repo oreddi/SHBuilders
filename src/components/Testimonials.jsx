@@ -1,28 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-export default function Testimonials() {
-  const [testimonials, setTestimonials] = useState([]);
+// testimonials come from Sanity, loaded on the server (see src/lib/content.js)
+export default function Testimonials({ testimonials = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('/api/testimonials')
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setTestimonials(data);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch testimonials", err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading || testimonials.length === 0) return null;
+  if (testimonials.length === 0) return null;
 
   return (
     <section className="sec sec-testimonials" id="testimonials">

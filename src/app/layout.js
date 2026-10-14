@@ -1,6 +1,7 @@
 import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import RootLayoutClient from "./RootLayoutClient";
+import { CONTACT } from "@/lib/siteConfig";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -87,14 +88,14 @@ const jsonLd = {
       description:
         "Premium custom home builder specializing in luxury residential construction, design-build, general contracting, and renovations in Tennessee.",
       url: SITE_URL,
-      telephone: "+1-423-555-0199",
-      email: "shbuilderstn@gmail.com",
+      ...(CONTACT.phone && { telephone: CONTACT.phone }),
+      email: CONTACT.email,
       address: {
         "@type": "PostalAddress",
-        streetAddress: "P.O. Box 4084",
-        addressLocality: "Chattanooga",
-        addressRegion: "TN",
-        postalCode: "37405",
+        streetAddress: CONTACT.streetAddress,
+        addressLocality: CONTACT.city,
+        addressRegion: CONTACT.region,
+        postalCode: CONTACT.postalCode,
         addressCountry: "US",
       },
       geo: {
