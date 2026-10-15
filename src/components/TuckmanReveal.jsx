@@ -44,11 +44,7 @@ export default function TuckmanReveal() {
           width: '100%', 
           height: '100%', 
           zIndex: 0,
-          pointerEvents: 'none',
-          // Photo shown until the video is ready
-          backgroundImage: "url('/images/RidgeField PI Exteriors.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          pointerEvents: 'none'
         }}
       >
         {videoUrl && <video
