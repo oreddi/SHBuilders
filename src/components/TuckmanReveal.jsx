@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 export default function TuckmanReveal() {
   const containerRef = useRef(null);
@@ -44,7 +44,11 @@ export default function TuckmanReveal() {
           width: '100%', 
           height: '100%', 
           zIndex: 0,
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+          // Photo shown until the video is ready
+          backgroundImage: "url('/images/RidgeField PI Exteriors.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
       >
         {videoUrl && <video
@@ -57,42 +61,6 @@ export default function TuckmanReveal() {
           style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: isVideoLoaded ? 1 : 0, transition: 'opacity 1s ease' }}
         />}
       </div>
-
-      {/* Constructive Loading Spinner */}
-      <AnimatePresence>
-        {!isVideoLoaded && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{ 
-              position: 'absolute', 
-              inset: 0, 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              zIndex: 1,
-              flexDirection: 'column',
-              gap: '20px'
-            }}
-          >
-            <motion.div
-              animate={{ rotateY: 360, rotateX: 360 }}
-              transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
-              style={{
-                width: 40,
-                height: 40,
-                border: '1px solid rgba(255, 255, 255, 0.4)',
-                borderTop: '1px solid var(--gold, #D4AF37)',
-                boxSizing: 'border-box'
-              }}
-            />
-            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '10px', letterSpacing: '4px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' }}>
-              Loading Media
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* SH Builders Text - Lights up and goes away */}
       <motion.div 

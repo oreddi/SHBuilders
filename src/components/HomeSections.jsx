@@ -38,7 +38,7 @@ export const About = () => (
       <div className="split-grid" style={{ alignItems: 'center', gap: '80px' }}>
         <div className="reveal in">
           <span className="tag">Since 1997</span>
-          <h2 className="h2" style={{ fontSize: '56px' }}>Building Value For<br />Over Two Decades</h2>
+          <h2 className="h2" style={{ fontSize: '56px' }}>Building Value For<br />Nearly Three Decades</h2>
           <p className="body-p">
             SHBuilders has earned the trust of families for design-build, pre-construction, general contracting, and construction management. Today we’re still known for our innovation, personalization and commitment to exceed expectations.
           </p>
@@ -72,7 +72,7 @@ export const Services = () => (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
 
       {/* Sticky Image Side */}
-      <div style={{ flex: '1 1 50%', minWidth: 'min(100%, 400px)', position: 'sticky', top: '0', height: '100vh', minHeight: '600px' }}>
+      <div className="svc-media" style={{ flex: '1 1 50%', minWidth: 'min(100%, 400px)', position: 'sticky', top: '0', height: '100vh', minHeight: '600px' }}>
         <Image
           src="/images/PersimmonDrKitchen.jpg"
           alt="Our Services"
@@ -81,11 +81,11 @@ export const Services = () => (
           style={{ objectFit: 'cover', filter: 'brightness(0.8)' }}
           loading="lazy"
         />
-        <div style={{ position: 'absolute', inset: '0', background: 'linear-gradient(to right, rgba(30, 41, 59, 0), rgba(30, 41, 59, 1))' }} />
+        <div className="svc-media-fade" style={{ position: 'absolute', inset: '0', background: 'linear-gradient(to right, rgba(30, 41, 59, 0), rgba(30, 41, 59, 1))' }} />
       </div>
 
       {/* Scrolling Content Side */}
-      <div style={{ flex: '1 1 50%', minWidth: 'min(100%, 400px)', padding: '160px 8%', zIndex: 2 }}>
+      <div className="svc-content" style={{ flex: '1 1 50%', minWidth: 'min(100%, 400px)', padding: '160px 8%', zIndex: 2 }}>
         <div className="reveal in">
           <span className="tag" style={{ color: 'var(--gold)' }}>Expertise</span>
           <h2 className="h2" style={{ fontSize: 'clamp(40px, 5vw, 64px)', color: '#fff', marginBottom: '80px' }}>Complete Home<br />Building Solutions</h2>
@@ -139,13 +139,14 @@ export const Clients = () => (
         <span className="tag">Our Network</span>
         <h2 className="h2" style={{ fontSize: '48px', marginBottom: '20px' }}>Featured Collaborators</h2>
         <p className="body-p" style={{ maxWidth: '600px', margin: '0 auto', color: '#666' }}>
-          We partner with the world's most distinguished publications and architectural firms to bring unparalleled vision to every project.
+          We partner with the world&rsquo;s most distinguished publications and architectural firms to bring unparalleled vision to every project.
         </p>
       </div>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '40px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+        gap: '40px 24px',
+        textAlign: 'center',
         alignItems: 'center',
         justifyItems: 'center',
         opacity: 0.7

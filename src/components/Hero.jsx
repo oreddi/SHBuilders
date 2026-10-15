@@ -56,9 +56,14 @@ const Hero = ({ heroSlides = [] }) => {
           Premium Construction
         </span>
         <h1 className="hero-title reveal in" style={{ fontSize: '60px', fontWeight: '400', letterSpacing: '2px' }}>Building Value<br />For Over 28 Years</h1>
-        <Link href="/portfolio" className="btn-outline reveal in" style={{ marginTop: '40px', display: 'inline-block', borderColor: '#fff', color: '#fff' }}>
-          View Our Work
-        </Link>
+        <div className="hero-ctas reveal in">
+          <Link href="/portfolio" className="btn-outline" style={{ display: 'inline-block', borderColor: '#fff', color: '#fff' }}>
+            View Our Work
+          </Link>
+          <Link href="/#contact" className="btn-solid">
+            Start Your Project
+          </Link>
+        </div>
       </div>
     </div>
   );

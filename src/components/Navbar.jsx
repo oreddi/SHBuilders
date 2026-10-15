@@ -17,10 +17,12 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer upon page navigation
-  useEffect(() => {
+  // Close mobile drawer upon page navigation (adjust state during render, no effect needed)
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   const isNotHome = pathname !== '/';
 
@@ -34,7 +36,7 @@ const Navbar = () => {
           <li><Link href="/">Home</Link></li>
           <li><Link href="/company">Company</Link></li>
           <li><Link href="/portfolio">Portfolio</Link></li>
-          <li><Link href="/#contact">Contact</Link></li>
+          <li><Link href="/#contact" className="nav-cta">Start a Project</Link></li>
         </ul>
 
         {/* Mobile Hamburger Trigger */}
