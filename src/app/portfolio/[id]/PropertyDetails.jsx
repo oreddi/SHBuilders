@@ -2,11 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Lightbox from '@/components/Lightbox';
+import { trackEvent } from '@/lib/analytics';
 
 // property and nextProject are loaded on the server (see page.js) and passed in
 export default function PropertyDetails({ slug, property, nextProject }) {
   const images = property?.images || [];
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  // Only load the visible photo and its neighbours (the slider holds ~20 photos)
+  const isNear = (idx) => {
+    const n = images.length;
+    return idx === activeIndex || idx === (activeIndex + 1) % n || idx === (activeIndex - 1 + n) % n;
+  };
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
   const [inquiryError, setInquiryError] = useState("");
 
@@ -49,6 +57,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
       setInquiryError(err.message || 'Something went wrong. Please try again or email us directly.');
       return;
     }
+    trackEvent('generate_lead', { source: 'property_inquiry', property: slug });
     setInquirySubmitted(true);
     setFormName(""); setFormEmail(""); setFormPhone(""); setFormBudget(""); setFormMessage("");
     setTimeout(() => setInquirySubmitted(false), 5000);
@@ -91,6 +100,11 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                 {/* Left Side: Image Slider */}
                 <div>
                   <div style={{ position: 'relative', width: '100%', height: '550px', background: '#000', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.06)' }}>
+                    {images.length > 0 && (
+                      <button type="button" className="gallery-expand" onClick={() => setLightboxOpen(true)} aria-label="View photos full screen">
+                        &#x2922; Full Screen
+                      </button>
+                    )}
                     {images.map((imgObj, idx) => (
                       <div
                         key={idx}
@@ -103,16 +117,17 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                           zIndex: activeIndex === idx ? 2 : 1,
                         }}
                       >
-                        <img
+                        {isNear(idx) && <img
                           src={imgObj.img}
                           alt={imgObj.name}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          onClick={() => setLightboxOpen(true)}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80";
                           }}
-                          loading="lazy"
-                        />
+                          loading={idx === 0 ? "eager" : "lazy"}
+                        />}
                         <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', height: '120px', background: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))', zIndex: 3, display: 'flex', alignItems: 'flex-end', padding: '30px' }}>
                           <h4 style={{ color: '#fff', fontSize: '18px', fontFamily: 'var(--serif)', margin: 0, fontWeight: '400', letterSpacing: '1px' }}>{imgObj.name}</h4>
                         </div>
@@ -383,6 +398,10 @@ export default function PropertyDetails({ slug, property, nextProject }) {
           }
         }
       `}</style>
+
+      {lightboxOpen && images.length > 0 && (
+        <Lightbox images={images} index={activeIndex} onIndexChange={setActiveIndex} onClose={() => setLightboxOpen(false)} />
+      )}
     </div>
   );
 }

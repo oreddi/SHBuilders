@@ -1207,3 +1207,107 @@ textarea:focus-visible,
     transform: none !important;
   }
 }
+
+/* CTA band */
+.cta-band {
+  background: var(--navy);
+  color: #fff;
+  padding: 100px 0;
+  position: relative;
+  z-index: 10;
+}
+.cta-band-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.cta-band-title {
+  color: #fff;
+  font-size: clamp(32px, 4vw, 52px);
+  margin-bottom: 16px;
+}
+.cta-band-text {
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 560px;
+  margin: 0;
+}
+.cta-band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+@media (max-width: 768px) {
+  .cta-band { padding: 72px 0; }
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(10, 12, 20, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 80px;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.lightbox-close,
+.lightbox-arrow {
+  position: absolute;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.lightbox-close:hover,
+.lightbox-arrow:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.lightbox-close { top: 16px; right: 16px; width: 44px; height: 44px; font-size: 26px; }
+.lightbox-arrow { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 30px; }
+.lightbox-prev { left: 16px; }
+.lightbox-next { right: 16px; }
+.lightbox-caption {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.gallery-expand {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.gallery-expand:hover { background: rgba(0, 0, 0, 0.7); }
+@media (max-width: 768px) {
+  .lightbox { padding: 56px 8px; }
+  .lightbox-arrow { display: none; }
+}

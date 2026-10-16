@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { CONTACT, phoneHref } from '@/lib/siteConfig';
+import { trackEvent } from '@/lib/analytics';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -32,6 +33,7 @@ const Contact = () => {
       });
 
       if (res.ok) {
+        trackEvent('generate_lead', { source: 'contact_form', budget: formData.budget || 'not_specified' });
         setSubmitted(true);
         setFormData({ name: '', email: '', phone: '', budget: '', message: '' });
         setTimeout(() => setSubmitted(false), 6000);
@@ -52,7 +54,7 @@ const Contact = () => {
         <div className="split-grid">
           <div className="reveal">
             <span className="tag">Get In Touch</span>
-            <h2 className="h2" style={{fontSize: 'clamp(40px, 5vw, 64px)'}}>Got a project in mind?<br/>Let's build it.</h2>
+            <h2 className="h2" style={{fontSize: 'clamp(40px, 5vw, 64px)'}}>Got a project in mind?<br/>Let&rsquo;s build it.</h2>
             <p className="body-p" style={{ marginBottom: '40px' }}>
               Whether you are looking to build a custom luxury home from the ground up or undertake a massive renovation, our team is ready to bring your vision to life.
             </p>

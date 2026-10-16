@@ -7,6 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import TuckmanReveal from '@/components/TuckmanReveal';
 import PropertyVideo from '@/components/PropertyVideo';
+import CtaBand from '@/components/CtaBand';
 import { getFeaturedProjects, getHeroSlides, getTestimonials, getRandomPropertyVideo } from '@/lib/content';
 
 export const revalidate = 300; // re-check Sanity every 5 minutes
@@ -87,6 +88,7 @@ export default async function Home() {
         <PropertyVideo video={propertyVideo} />
 
         <ProcessVideo />
+        <CtaBand location="home" />
         <Testimonials testimonials={testimonials} />
       </div>
 

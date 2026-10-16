@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clients } from '@/components/HomeSections';
 import Testimonials from '@/components/Testimonials';
+import CtaBand from '@/components/CtaBand';
 import { getTestimonials } from '@/lib/content';
 
 export const revalidate = 300;
@@ -32,6 +33,7 @@ export default async function CompanyPage() {
       
       <Testimonials testimonials={testimonials} />
       <Clients />
+      <CtaBand location="company" />
     </div>
   );
 }
