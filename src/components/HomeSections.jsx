@@ -38,9 +38,9 @@ export const About = () => (
       <div className="split-grid" style={{ alignItems: 'center', gap: '80px' }}>
         <div className="reveal in">
           <span className="tag">Since 1997</span>
-          <h2 className="h2" style={{ fontSize: '56px' }}>Building Value For<br />Nearly Three Decades</h2>
+          <h2 className="h2" style={{ fontSize: '56px' }}>One Builder,<br />Start to Finish</h2>
           <p className="body-p">
-            SHBuilders has earned the trust of families for design-build, pre-construction, general contracting, and construction management. Today we’re still known for our innovation, personalization and commitment to exceed expectations.
+            For nearly three decades, SH Builders has guided families from the first sketch to the final walkthrough. Design, planning, construction and renovation stay under one roof, with one team accountable for every decision, every trade and every finish. We build each home the way we would build our own.
           </p>
           <Link href="/company" className="btn-outline" style={{ marginTop: '40px', color: 'var(--navy)', borderColor: 'var(--navy)', display: 'inline-block' }}>
             Our Company
@@ -100,25 +100,6 @@ export const Services = () => (
             ))}
           </div>
         </div>
-      </div>
-
-    </div>
-  </section>
-);
-
-export const Testimonials = () => (
-  <section className="sec sec-off" style={{ padding: '160px 0', textAlign: 'center' }}>
-    <div className="inner reveal in" style={{ maxWidth: '900px', margin: '0 auto' }}>
-      <span className="tag" style={{ color: 'var(--gold)', marginBottom: '40px', display: 'block' }}>Client Voices</span>
-
-      <div style={{ position: 'relative' }}>
-        <span style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', fontSize: '120px', color: 'rgba(0,0,0,0.05)', fontFamily: 'var(--serif)', lineHeight: '1' }}>&ldquo;</span>
-        <p className="testi-text" style={{ fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: '1.4', fontFamily: 'var(--serif)', fontStyle: 'italic', color: 'var(--navy)', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
-          SHBuilders’ outstanding performance on this time sensitive project greatly exceeded all our expectations. Exquisite craftsmanship and unparalleled attention to detail.
-        </p>
-        <span className="testi-author" style={{ fontSize: '14px', letterSpacing: '4px', textTransform: 'uppercase', fontWeight: '600', color: '#666' }}>
-          Sanjay K. &mdash; North Carolina
-        </span>
       </div>
 
     </div>

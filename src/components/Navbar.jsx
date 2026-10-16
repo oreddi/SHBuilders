@@ -29,13 +29,21 @@ const Navbar = () => {
   return (
     <>
       <nav className={`nav ${scrolled || isNotHome ? 'scrolled' : ''}`}>
-        <Link href="/" className="nav-logo">SHBUILDERS</Link>
+        {/* Desktop: links left, logo centered, links right */}
+        <ul className="nav-links nav-left desktop-only">
+          <li><Link href="/" className={pathname === '/' ? 'active' : ''}>Home</Link></li>
+          <li><Link href="/company" className={pathname === '/company' ? 'active' : ''}>Company</Link></li>
+          <li><Link href="/portfolio" className={pathname?.startsWith('/portfolio') ? 'active' : ''}>Portfolio</Link></li>
+        </ul>
 
-        {/* Desktop Nav Links */}
-        <ul className="nav-links desktop-only">
-          <li><Link href="/">Home</Link></li>
-          <li><Link href="/company">Company</Link></li>
-          <li><Link href="/portfolio">Portfolio</Link></li>
+        <Link href="/" className="nav-logo">
+          <span className="nav-logo-name">SH Builders</span>
+          <span className="nav-logo-sub">Custom Homes &middot; Est. 1997</span>
+        </Link>
+
+        <ul className="nav-links nav-right desktop-only">
+          <li><Link href="/#process">Process</Link></li>
+          <li><Link href="/#contact">Contact</Link></li>
           <li><Link href="/#contact" className="nav-cta">Start a Project</Link></li>
         </ul>
 
