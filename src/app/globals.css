@@ -1053,20 +1053,25 @@ html {
 }
 
 /* Homepage property walkthrough video — sits between Selected Works and Expertise */
+/* Same "window" transition as the video under Featured Collaborators:
+   the video is fixed to the screen and the section clips it, so the page
+   scrolls past while the video stays still behind it.  */
 .property-video {
   position: relative;
-  height: 80vh;
+  height: 70vh;
   min-height: 420px;
-  overflow: hidden;
-  background: var(--navy);
+  clip-path: inset(0 0 0 0);
+  background: #111;
   display: flex;
   align-items: flex-end;
 }
 .property-video video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
   object-fit: cover;
   opacity: 0;
   transition: opacity 1.2s ease;
