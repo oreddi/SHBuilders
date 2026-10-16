@@ -82,10 +82,10 @@ export default async function Home() {
           </div>
         </section>
 
+        <Services />
         {/* Random property walkthrough (muted) */}
         <PropertyVideo video={propertyVideo} />
 
-        <Services />
         <ProcessVideo />
         <Testimonials testimonials={testimonials} />
       </div>
