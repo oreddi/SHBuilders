@@ -28,7 +28,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`nav ${scrolled || isNotHome ? 'scrolled' : ''}`}>
+      <nav className={`nav ${scrolled || isNotHome || menuOpen ? 'scrolled' : ''}`}>
         <Link href="/" className="nav-logo">SHBUILDERS</Link>
 
         {/* Desktop Nav Links */}
@@ -112,15 +112,20 @@ const Navbar = () => {
           position: fixed;
           inset: 0;
           background: var(--stone);
-          z-index: 650;
+          /* Below the header (600) so the menu button stays tappable to close */
+          z-index: 590;
           display: flex;
           align-items: center;
           justify-content: center;
           transform: translateX(100%);
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          /* Fully hidden when closed (no flash on resize, not reachable by Tab) */
+          visibility: hidden;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.6s;
         }
         .mobile-menu.open {
           transform: translateX(0);
+          visibility: visible;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s;
         }
         .mobile-links {
           list-style: none;

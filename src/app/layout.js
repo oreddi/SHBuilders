@@ -1,6 +1,7 @@
 import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import RootLayoutClient from "./RootLayoutClient";
+import StyledJsxRegistry from "./StyledJsxRegistry";
 import { CONTACT } from "@/lib/siteConfig";
 import Analytics from "@/components/Analytics";
 
@@ -134,9 +135,11 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${montserrat.variable} ${cormorantGaramond.variable}`}>
         <a href="#main-content" className="skip-link">Skip to content</a>
-        <RootLayoutClient>
-          {children}
-        </RootLayoutClient>
+        <StyledJsxRegistry>
+          <RootLayoutClient>
+            {children}
+          </RootLayoutClient>
+        </StyledJsxRegistry>
         <Analytics />
       </body>
     </html>
