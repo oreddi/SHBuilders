@@ -20,16 +20,16 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sh-builders.vercel
 
 export const metadata = {
   title: {
-    default: "SH Builders | Premium Custom Home Construction in Tennessee",
+    default: "SH Builders | Custom Luxury Homes in Mobile & Baldwin County, Alabama",
     template: "%s | SH Builders",
   },
   description:
-    "SH Builders is a luxury custom home builder in Chattanooga, TN where craftsmanship, materials and client relationships come first. Design-build, general contracting, and renovation services delivering uncompromising craftsmanship.",
+    "SH Builders is a custom luxury home builder serving Mobile & Baldwin County, Alabama, where craftsmanship, materials and client relationships come first. Design-build, general contracting and renovation.",
   keywords: [
     "custom home builder",
     "luxury homes",
-    "Chattanooga builder",
-    "Tennessee construction",
+    "Mobile AL home builder",
+    "Baldwin County custom homes",
     "design build",
     "general contractor",
     "home renovation",
@@ -87,34 +87,21 @@ const jsonLd = {
       "@id": `${SITE_URL}/#business`,
       name: "SH Builders",
       description:
-        "Premium custom home builder specializing in luxury residential construction, design-build, general contracting, and renovations in Tennessee.",
+        "Custom luxury home builder: design-build, general contracting and renovation in Mobile & Baldwin County, Alabama.",
       url: SITE_URL,
       ...(CONTACT.phone && { telephone: CONTACT.phone }),
       email: CONTACT.email,
       address: {
         "@type": "PostalAddress",
-        streetAddress: CONTACT.streetAddress,
+        ...(CONTACT.streetAddress && { streetAddress: CONTACT.streetAddress }),
         addressLocality: CONTACT.city,
         addressRegion: CONTACT.region,
-        postalCode: CONTACT.postalCode,
+        ...(CONTACT.postalCode && { postalCode: CONTACT.postalCode }),
         addressCountry: "US",
-      },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: 35.0456,
-        longitude: -85.3097,
       },
       image: `${SITE_URL}/images/PherinWoodExteriors.jpg`,
       priceRange: "$$$$",
-      numberOfEmployees: {
-        "@type": "QuantitativeValue",
-        minValue: 10,
-        maxValue: 50,
-      },
-      areaServed: {
-        "@type": "State",
-        name: "Tennessee",
-      },
+      areaServed: CONTACT.serviceArea,
       sameAs: [],
     },
     {
@@ -124,7 +111,7 @@ const jsonLd = {
       url: SITE_URL,
       description:
         "Custom luxury home builder — design-build, general contracting, and renovation services.",
-      areaServed: "Chattanooga, TN and surrounding areas",
+      areaServed: CONTACT.serviceArea,
     },
     {
       "@type": "WebSite",

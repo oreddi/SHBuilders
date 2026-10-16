@@ -88,40 +88,6 @@ export const Services = () => (
   </section>
 );
 
-const clientsData = [
-  { name: 'Architectural Digest', style: { fontFamily: 'var(--serif)', fontSize: '24px', letterSpacing: '1px', textTransform: 'uppercase' } },
-  { name: 'Home & Design', style: { fontFamily: 'var(--serif)', fontSize: '28px', fontStyle: 'italic' } },
-  { name: 'DWELL', style: { fontFamily: 'var(--sans)', fontSize: '24px', fontWeight: 'bold', letterSpacing: '4px', textTransform: 'uppercase' } },
-  { name: 'Luxury Homes', style: { fontFamily: 'var(--serif)', fontSize: '24px', letterSpacing: '2px', textTransform: 'uppercase' } }
-];
-
-export const Clients = () => (
-  <section className="sec sec-wh" id="clients" style={{ padding: '120px 0', borderTop: '1px solid #eee' }}>
-    <div className="inner">
-      <div className="reveal in" style={{ textAlign: 'center', marginBottom: '80px' }}>
-        <span className="tag">Our Network</span>
-        <h2 className="h2" style={{ fontSize: '48px', marginBottom: '20px' }}>Featured Collaborators</h2>
-        <p className="body-p" style={{ maxWidth: '600px', margin: '0 auto', color: '#666' }}>
-          We partner with the world&rsquo;s most distinguished publications and architectural firms to bring unparalleled vision to every project.
-        </p>
-      </div>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-        gap: '40px 24px',
-        textAlign: 'center',
-        alignItems: 'center',
-        justifyItems: 'center',
-        opacity: 0.7
-      }}>
-        {clientsData.map((client, i) => (
-          <div className="reveal in" style={client.style} key={i}>{client.name}</div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 export const ParallaxStrip = ({ image, title }) => (
   <div className="parallax-strip" style={{ backgroundImage: `url(${image})` }}>
     <div className="parallax-overlay" />

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Hero from '@/components/Hero';
-import { About, Services, ProcessVideo, Clients } from '@/components/HomeSections';
+import { About, Services, ProcessVideo } from '@/components/HomeSections';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import TuckmanReveal from '@/components/TuckmanReveal';
@@ -27,7 +27,6 @@ export default async function Home() {
       {/* SOLID BLOCK 1: About SH Builders and Featured Collaborators */}
       <div style={{ position: 'relative', zIndex: 10, background: 'var(--white)' }}>
         <About />
-        <Clients />
       </div>
 
       {/* PEER THROUGH VIDEO WINDOW */}

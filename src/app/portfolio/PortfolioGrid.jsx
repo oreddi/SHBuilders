@@ -16,6 +16,13 @@ const CATEGORIES = [
 // projects are loaded on the server (see page.js) and passed in
 export default function PortfolioGrid({ projects = [] }) {
   const [filteredProjects, setFilteredProjects] = useState(projects);
+
+  // Only offer styles that enough homes really have (styles are set per home in /admin)
+  const MIN_HOMES_PER_STYLE = 3;
+  const styleOptions = CATEGORIES.slice(1).filter(
+    (cat) => projects.filter((p) => p.category && p.category.toLowerCase() === cat.toLowerCase()).length >= MIN_HOMES_PER_STYLE
+  );
+  const showFilter = styleOptions.length >= 2;
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -27,7 +34,7 @@ export default function PortfolioGrid({ projects = [] }) {
     if (cat === "All") {
       setFilteredProjects(projects);
     } else {
-      setFilteredProjects(projects.filter(p => p.cat && p.cat.toLowerCase() === cat.toLowerCase()));
+      setFilteredProjects(projects.filter(p => p.category && p.category.toLowerCase() === cat.toLowerCase()));
     }
   };
 
@@ -56,13 +63,13 @@ export default function PortfolioGrid({ projects = [] }) {
             <span className="tag">Portfolio</span>
             <h1 className="h2" style={{ fontSize: 'clamp(48px, 6vw, 84px)', color: 'var(--navy)' }}>Selected Works</h1>
             <p className="body-p" style={{ margin: '0 auto' }}>
-              A curated collection of our finest custom homes and renovations. Filter by style to explore our diverse architectural expertise.
+              A curated collection of our custom homes and renovations.
             </p>
           </div>
 
           {/* Filter Bar */}
-          <div className="filter-bar reveal in">
-            {CATEGORIES.map((cat) => (
+          {showFilter && <div className="filter-bar reveal in">
+            {['All', ...styleOptions].map((cat) => (
               <button
                 key={cat}
                 className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
@@ -71,7 +78,7 @@ export default function PortfolioGrid({ projects = [] }) {
                 {cat}
               </button>
             ))}
-          </div>
+          </div>}
 
           {(
             <>

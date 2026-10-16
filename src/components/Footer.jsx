@@ -32,7 +32,7 @@ const Footer = () => (
           {CONTACT.phone && (
             <li><a href={`tel:${phoneHref()}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>{CONTACT.phone}</a></li>
           )}
-          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: '1.6'}}>{CONTACT.city}, {CONTACT.region}</span></li>
+          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: '1.6'}}>Serving {CONTACT.serviceArea}</span></li>
         </ul>
       </div>
     </div>

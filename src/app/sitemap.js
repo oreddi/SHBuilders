@@ -30,20 +30,14 @@ export default async function sitemap() {
     })),
   ];
 
-  let propertyPages = [];
-  try {
-    // Imported lazily so the sitemap still works if Sanity is not configured.
-    const { client } = await import("@/sanity/lib/client");
-    const properties = await client.fetch(`*[_type == "property" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`);
-    propertyPages = properties.map(p => ({
-      url: `${SITE_URL}/portfolio/${p.slug}`,
-      lastModified: new Date(p._updatedAt),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    }));
-  } catch (err) {
-    console.error("Sitemap: failed to load properties from Sanity", err);
-  }
+  // One URL per real home (duplicate photo-shoot listings are merged)
+  const { getPortfolioSlugs } = await import("@/lib/content");
+  const propertyPages = (await getPortfolioSlugs()).map((slug) => ({
+    url: `${SITE_URL}/portfolio/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
 
   return [...staticPages, ...propertyPages];
 }

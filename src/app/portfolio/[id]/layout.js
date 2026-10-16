@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
     return {
       title,
       description,
-      alternates: { canonical: `/portfolio/${id}` },
+      alternates: { canonical: `/portfolio/${property.canonicalSlug}` },
       openGraph: { title, description, ...(image && { images: [{ url: image }] }) },
     };
   } catch {

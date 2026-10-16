@@ -152,7 +152,7 @@ export default function NewProjectModal({ onClose, onCreated }) {
                   style={inputStyle}
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="e.g. Chattanooga, TN"
+                  placeholder="e.g. Mobile, AL"
                 />
               </div>
             </div>

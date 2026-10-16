@@ -60,9 +60,11 @@ const Contact = () => {
             </p>
             
             <div style={{ marginBottom: '40px' }}>
-              <h4 style={{fontFamily: 'var(--serif)', fontSize: '24px', marginBottom: '10px'}}>SH Builders Headquarters</h4>
-              <p className="body-p" style={{margin: 0}}>{CONTACT.streetAddress}</p>
-              <p className="body-p" style={{margin: 0}}>{CONTACT.city}, {CONTACT.region} {CONTACT.postalCode}</p>
+              <h4 style={{fontFamily: 'var(--serif)', fontSize: '24px', marginBottom: '10px'}}>Where We Build</h4>
+              <p className="body-p" style={{margin: 0}}>Serving {CONTACT.serviceArea}</p>
+              {CONTACT.streetAddress && (
+                <p className="body-p" style={{margin: 0}}>{CONTACT.streetAddress}, {CONTACT.city}, {CONTACT.region} {CONTACT.postalCode}</p>
+              )}
               <p className="body-p" style={{margin: 0, marginTop: '20px'}}>
                 <a href={`mailto:${CONTACT.email}`} style={{color: 'var(--navy)', textDecoration: 'underline'}}>{CONTACT.email}</a>
               </p>
@@ -118,7 +120,7 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="(423) 555-0123"
+                      placeholder="(251) 555-0123"
                       style={{width: '100%', padding: '15px', border: '1px solid var(--border)', background: '#fff', fontSize: '16px'}}
                     />
                   </div>

@@ -67,11 +67,22 @@ export default function PropertyDetails({ slug, property, nextProject }) {
 
   // Get specs from Sanity data (real data, not mock!)
   const specs = property?.specs || {};
+  // Style is only shown when someone has set a real one in /admin
   const categoryLabel = property?.category
     ? property.category.charAt(0).toUpperCase() + property.category.slice(1)
-    : 'Custom';
+    : null;
+  const homeLabel = categoryLabel ? `${categoryLabel} Residence` : 'Custom Home';
+  // Only details entered in /admin (placeholder values are filtered out in src/lib/content.js)
+  const specRows = [
+    categoryLabel && ['Architectural Style', categoryLabel],
+    specs.sqft && ['Area', `${Number(specs.sqft).toLocaleString()} sq ft`],
+    specs.beds && ['Bedrooms', `${specs.beds} Beds`],
+    specs.baths && ['Bathrooms', `${specs.baths} Baths`],
+    specs.year && ['Year Completed', specs.year],
+    specs.location && ['Location', specs.location],
+  ].filter(Boolean);
   const projectName = property?.name || 'Bespoke Residence';
-  const description = property?.description || `A breathtaking bespoke residence exemplifying SH Builders' signature craftsmanship. Designed with an expansive open floor plan, soaring ceilings, and hand-selected natural materials.`;
+  const description = property?.description || 'A custom home by SH Builders. Browse the photos to see the finishes and details, or ask us about building something similar.';
 
   return (
     <div style={{ paddingTop: '120px', background: 'var(--stone)', minHeight: '100vh' }}>
@@ -85,11 +96,11 @@ export default function PropertyDetails({ slug, property, nextProject }) {
             </Link>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '20px' }}>
               <div>
-                <span className="tag" style={{ color: 'var(--gold)', marginBottom: '10px', display: 'block' }}>{categoryLabel} Residence</span>
+                <span className="tag" style={{ color: 'var(--gold)', marginBottom: '10px', display: 'block' }}>{homeLabel}</span>
                 <h1 className="h2" style={{ fontSize: 'clamp(36px, 5vw, 64px)', color: 'var(--navy)', margin: 0 }}>{projectName}</h1>
               </div>
               <div style={{ fontSize: '14px', color: 'var(--grey)', fontFamily: 'var(--font-montserrat)', fontWeight: 500 }}>
-                {specs.location || 'Chattanooga, TN'} • Year {specs.year || '2024'}
+                {[specs.location, specs.year && `Completed ${specs.year}`].filter(Boolean).join(' • ')}
               </div>
             </div>
           </div>
@@ -194,36 +205,20 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                 {/* Right Side: Specs & Description */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }} className="reveal in">
 
-                  {/* Specifications Card */}
-                  <div className="spec-card">
-                    <h3 style={{ fontSize: '11px', color: 'var(--navy)', letterSpacing: '3px', textTransform: 'uppercase', margin: '0 0 25px 0', borderBottom: '1px solid var(--border)', paddingBottom: '15px', fontWeight: '700' }}>
-                      Residence Specifications
-                    </h3>
-                    <div className="spec-item">
-                      <span className="spec-label">Architectural Style</span>
-                      <span className="spec-val">{categoryLabel}</span>
+                  {/* Specifications Card (only real details) */}
+                  {specRows.length > 0 && (
+                    <div className="spec-card">
+                      <h3 style={{ fontSize: '11px', color: 'var(--navy)', letterSpacing: '3px', textTransform: 'uppercase', margin: '0 0 25px 0', borderBottom: '1px solid var(--border)', paddingBottom: '15px', fontWeight: '700' }}>
+                        Residence Specifications
+                      </h3>
+                      {specRows.map(([label, value]) => (
+                        <div className="spec-item" key={label}>
+                          <span className="spec-label">{label}</span>
+                          <span className="spec-val">{value}</span>
+                        </div>
+                      ))}
                     </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Area (Sq Ft)</span>
-                      <span className="spec-val">{specs.sqft ? specs.sqft.toLocaleString() : '—'} sq ft</span>
-                    </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Bedrooms</span>
-                      <span className="spec-val">{specs.beds || '—'} Beds</span>
-                    </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Bathrooms</span>
-                      <span className="spec-val">{specs.baths || '—'} Baths</span>
-                    </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Year Completed</span>
-                      <span className="spec-val">{specs.year || '—'}</span>
-                    </div>
-                    <div className="spec-item">
-                      <span className="spec-label">Location</span>
-                      <span className="spec-val">{specs.location || '—'}</span>
-                    </div>
-                  </div>
+                  )}
 
                   {/* Description */}
                   <div>
@@ -245,7 +240,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                     Walkthrough Video
                   </h3>
                   <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.06)', background: '#000' }}>
-                    <video src={property.videoUrl} controls style={{ width: '100%', maxHeight: '600px', display: 'block' }} />
+                    <video src={property.videoUrl} controls preload="metadata" style={{ width: '100%', maxHeight: '600px', display: 'block' }} />
                   </div>
                 </div>
               )}
@@ -257,7 +252,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                     <span className="tag" style={{ color: 'var(--gold)', marginBottom: '15px', display: 'block' }}>Inquire Today</span>
                     <h2 className="h2" style={{ color: '#fff', fontSize: 'clamp(28px, 4vw, 44px)', marginBottom: '20px' }}>Interested in a Similar Build?</h2>
                     <p className="body-p" style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.7', margin: 0 }}>
-                      If you are inspired by the craftsmanship of this {categoryLabel.toLowerCase()} residence and would like to explore custom home opportunities, submit an inquiry today.
+                      If you are inspired by the craftsmanship of this home and would like to explore custom home opportunities, submit an inquiry today.
                     </p>
                   </div>
 
@@ -286,7 +281,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="form-row-split">
                           <div>
                             <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Phone (Optional)</label>
-                            <input type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} placeholder="(423) 555-0199"
+                            <input type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} placeholder="(251) 555-0199"
                               style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit' }} />
                           </div>
                           <div>
@@ -304,7 +299,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                         <div>
                           <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Project Message</label>
                           <textarea required rows="4" value={formMessage} onChange={(e) => setFormMessage(e.target.value)}
-                            placeholder={`Tell us about your build timeline or thoughts regarding the ${categoryLabel.toLowerCase()} style...`}
+                            placeholder="Tell us about your build timeline, your lot, or what you liked about this home..."
                             style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '12px 15px', color: '#fff', borderRadius: '4px', fontFamily: 'inherit', resize: 'vertical' }} />
                         </div>
                         {inquiryError && (

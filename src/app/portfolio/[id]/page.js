@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import PropertyDetails from './PropertyDetails';
 import { getProperty, getPortfolio, getPortfolioSlugs } from '@/lib/content';
 
@@ -14,6 +14,8 @@ export default async function PropertyPage({ params }) {
   const { id: slug } = await params;
   const [property, allProjects] = await Promise.all([getProperty(slug), getPortfolio()]);
   if (!property) notFound();
+  // Duplicate photo-shoot listings point to the one real listing for that home
+  if (property.canonicalSlug !== slug) permanentRedirect(`/portfolio/${property.canonicalSlug}`);
 
   // "Next project" link loops back to the first property at the end
   const currentIndex = allProjects.findIndex((p) => p.id === slug);
