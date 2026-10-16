@@ -1079,26 +1079,70 @@ html {
 .property-video video.is-playing {
   opacity: 1;
 }
+/* Light shade only at the bottom, so the small caption stays readable */
 .property-video-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.15) 50%, rgba(0, 0, 0, 0.25) 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 35%);
 }
+/* "SH Builders" text that lights up and fades — same look as TuckmanReveal */
+.property-video-brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+.property-video-brand h2 {
+  font-family: var(--font-montserrat);
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  font-weight: 400;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+/* Small home name + link along the bottom */
 .property-video-caption {
   position: relative;
-  z-index: 1;
-  padding-bottom: 80px;
-  text-align: left;
+  z-index: 3;
   width: 100%;
+  padding-bottom: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
 }
-.property-video-caption .h2 {
-  font-size: clamp(30px, 4vw, 48px);
+.property-video-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: #fff;
+}
+.property-video-link {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 4px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.property-video-link:hover {
+  color: var(--gold);
+  border-color: var(--gold);
 }
 @media (max-width: 768px) {
   .property-video {
     height: 60vh;
   }
   .property-video-caption {
-    padding-bottom: 48px;
+    padding-bottom: 24px;
+  }
+  .property-video-name {
+    font-size: 17px;
   }
 }
