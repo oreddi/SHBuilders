@@ -116,6 +116,24 @@ export async function getProperty(slug) {
   };
 }
 
+// Properties that have a walkthrough video, for the homepage video section
+export async function getPropertyVideos() {
+  try {
+    return await fetchSanity(
+      `*[_type == "property" && defined(video.asset)]{ name, "slug": slug.current, "url": video.asset->url }`
+    );
+  } catch (err) {
+    console.error('getPropertyVideos:', err);
+    return [];
+  }
+}
+
+// One random walkthrough; changes each time the page is regenerated (every 5 minutes)
+export async function getRandomPropertyVideo() {
+  const videos = (await getPropertyVideos()).filter((v) => v.url && v.slug);
+  return videos.length ? videos[Math.floor(Math.random() * videos.length)] : null;
+}
+
 export async function getHeroSlides() {
   try {
     const slides = await fetchSanity(

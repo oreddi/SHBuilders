@@ -6,15 +6,17 @@ import { Stats, About, Services, ProcessVideo, Clients } from '@/components/Home
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import TuckmanReveal from '@/components/TuckmanReveal';
-import { getFeaturedProjects, getHeroSlides, getTestimonials } from '@/lib/content';
+import PropertyVideo from '@/components/PropertyVideo';
+import { getFeaturedProjects, getHeroSlides, getTestimonials, getRandomPropertyVideo } from '@/lib/content';
 
 export const revalidate = 300; // re-check Sanity every 5 minutes
 
 export default async function Home() {
-  const [featuredProjects, heroSlides, testimonials] = await Promise.all([
+  const [featuredProjects, heroSlides, testimonials, propertyVideo] = await Promise.all([
     getFeaturedProjects(),
     getHeroSlides(),
     getTestimonials(),
+    getRandomPropertyVideo(),
   ]);
 
   return (
@@ -79,6 +81,9 @@ export default async function Home() {
             )}
           </div>
         </section>
+
+        {/* Random property walkthrough (muted) */}
+        <PropertyVideo video={propertyVideo} />
 
         <Services />
         <ProcessVideo />
