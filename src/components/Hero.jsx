@@ -83,7 +83,11 @@ const Hero = ({ heroSlides = [] }) => {
           aria-label={paused ? 'Play slideshow' : 'Pause slideshow'}
           aria-pressed={paused}
         >
-          {paused ? '▶' : '❚❚'}
+          {paused ? (
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor" /></svg>
+          ) : (
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1" width="3" height="10" fill="currentColor" /><rect x="7" y="1" width="3" height="10" fill="currentColor" /></svg>
+          )}
         </button>
       )}
     </div>
