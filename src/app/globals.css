@@ -1311,3 +1311,20 @@ textarea:focus-visible,
   .lightbox { padding: 56px 8px; }
   .lightbox-arrow { display: none; }
 }
+
+/* Standalone section pages */
+.page-header {
+  padding: 180px 0 80px;
+}
+@media (max-width: 768px) {
+  .page-header { padding: 140px 0 56px; }
+}
+
+/* Spam trap field: invisible to people, filled in by bots */
+.hp-field {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}

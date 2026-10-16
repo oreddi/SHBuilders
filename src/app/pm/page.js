@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { signOut } from 'next-auth/react';
-import { CheckSquare, Layout, Plus, Search, Building2, Users, LogOut } from 'lucide-react';
+import { CheckSquare, Layout, Plus, Search, Building2, Users, LogOut, Inbox } from 'lucide-react';
 import NewProjectModal from '@/components/PM/NewProjectModal';
 
 export default function PMDashboard() {
@@ -13,10 +13,6 @@ export default function PMDashboard() {
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
 
   const fetchProjects = async () => {
     try {
@@ -30,6 +26,11 @@ export default function PMDashboard() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchProjects();
+  }, []);
 
   const filteredProjects = projects.filter(p => {
     if (filter !== 'all' && p.status !== filter) return false;
@@ -51,6 +52,13 @@ export default function PMDashboard() {
             <p className="body-p" style={{ margin: 0 }}>Tracking craftsmanship across the project lifecycle.</p>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <Link
+              href="/pm/leads"
+              className="btn-outline"
+              style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <Inbox size={16} /> Leads
+            </Link>
             <Link
               href="/pm/team"
               className="btn-outline"

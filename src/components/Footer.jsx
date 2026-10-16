@@ -19,6 +19,10 @@ const Footer = () => (
           <li><Link href="/" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Home</Link></li>
           <li><Link href="/company" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>About Us</Link></li>
           <li><Link href="/portfolio" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Portfolio</Link></li>
+          <li><Link href="/services" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Services</Link></li>
+          <li><Link href="/process" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Our Process</Link></li>
+          <li><Link href="/testimonials" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Testimonials</Link></li>
+          <li><Link href="/contact" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Contact</Link></li>
         </ul>
       </div>
       <div className="ft-col">

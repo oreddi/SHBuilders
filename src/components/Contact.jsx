@@ -29,7 +29,7 @@ const Contact = () => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, source: 'contact_form', website: e.target.elements.website?.value || '' }),
       });
 
       if (res.ok) {
@@ -85,6 +85,7 @@ const Contact = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp-field" aria-hidden="true" />
                 <div>
                   <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Name *</label>
                   <input

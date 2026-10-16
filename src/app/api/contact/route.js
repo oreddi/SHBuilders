@@ -1,12 +1,25 @@
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
 const escapeHtml = (value) =>
   String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
+const LIMITS = { name: 200, email: 254, phone: 40, budget: 80, message: 5000 };
+const SOURCES = ['contact_form', 'property_inquiry'];
+
 export async function POST(request) {
   try {
     const body = await request.json();
-    const raw = body;
+
+    // Spam trap: real visitors never see or fill the hidden "website" field
+    if (body.website) {
+      return NextResponse.json({ success: true, message: 'Inquiry submitted successfully' });
+    }
+
+    const raw = Object.fromEntries(
+      Object.entries(LIMITS).map(([key, max]) => [key, String(body[key] ?? '').trim().slice(0, max)])
+    );
+    const source = SOURCES.includes(body.source) ? body.source : 'contact_form';
 
     // Validation
     if (!raw.name || !raw.email || !raw.message) {
@@ -22,6 +35,36 @@ export async function POST(request) {
     const [name, email, phone, budget, message] = [raw.name, raw.email, raw.phone, raw.budget, raw.message].map(
       (v) => (v ? escapeHtml(v) : v)
     );
+
+    // Save the lead so nothing is lost if the email lands in spam (CRM-ready handoff)
+    try {
+      await prisma.lead.create({
+        data: {
+          name: raw.name,
+          email: raw.email,
+          phone: raw.phone || null,
+          budget: raw.budget || null,
+          message: raw.message,
+          source,
+        },
+      });
+    } catch (err) {
+      console.error('Lead save failed (email still sent):', err);
+    }
+
+    // Optional: forward to a CRM / Zapier / HubSpot webhook
+    if (process.env.LEAD_WEBHOOK_URL) {
+      try {
+        await fetch(process.env.LEAD_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...raw, source, submittedAt: new Date().toISOString() }),
+          signal: AbortSignal.timeout(5000),
+        });
+      } catch (err) {
+        console.error('Lead webhook failed:', err);
+      }
+    }
 
     // If Resend API key is configured, send email
     const RESEND_API_KEY = process.env.RESEND_API_KEY;

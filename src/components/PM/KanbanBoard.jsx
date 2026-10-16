@@ -29,6 +29,8 @@ const STATUS_COLUMNS = [
 
 export default function KanbanBoard({ initialTasks, phases, projectId }) {
   const [isMounted, setIsMounted] = useState(false);
+  // dnd-kit must render on the client only (avoids hydration mismatch)
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setIsMounted(true), []);
 
   const [tasks, setTasks] = useState(initialTasks || []);

@@ -46,6 +46,8 @@ export default function PropertyDetails({ slug, property, nextProject }) {
           phone: formPhone,
           budget: formBudget,
           message: `[Property Inquiry: ${property?.name || slug}] ${formMessage}`,
+          source: 'property_inquiry',
+          website: e.target.elements.website?.value || '',
         }),
       });
       if (!res.ok) {
@@ -268,6 +270,7 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp-field" aria-hidden="true" />
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="form-row-split">
                           <div>
                             <label style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '8px' }}>Full Name</label>

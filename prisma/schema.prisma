@@ -140,3 +140,21 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// ─────────────────────────────────────────
+// LEADS — website contact / inquiry form submissions
+// ─────────────────────────────────────────
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  budget    String?
+  message   String
+  source    String   @default("contact_form") // contact_form, property_inquiry
+  status    String   @default("new")          // new, contacted, qualified, closed
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

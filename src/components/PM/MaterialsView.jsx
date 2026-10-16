@@ -230,7 +230,7 @@ export default function MaterialsView({ materials: initialMaterials, projectId }
             {materials.length === 0 && (
               <tr>
                 <td colSpan="7" style={{ padding: '40px', textAlign: 'center', color: 'var(--grey)' }}>
-                  No materials tracked yet. Click "Add Material" to get started.
+                  No materials tracked yet. Click &ldquo;Add Material&rdquo; to get started.
                 </td>
               </tr>
             )}

@@ -22,6 +22,12 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...["services", "process", "testimonials", "contact"].map((p) => ({
+      url: `${SITE_URL}/${p}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    })),
   ];
 
   let propertyPages = [];
