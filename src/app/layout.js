@@ -2,6 +2,7 @@ import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import RootLayoutClient from "./RootLayoutClient";
 import { CONTACT } from "@/lib/siteConfig";
+import Analytics from "@/components/Analytics";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -146,9 +147,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${montserrat.variable} ${cormorantGaramond.variable}`}>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <RootLayoutClient>
           {children}
         </RootLayoutClient>
+        <Analytics />
       </body>
     </html>
   );

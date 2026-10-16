@@ -13,7 +13,7 @@ export default function RootLayoutClient({ children }) {
     <>
       {!isSpecialPage && <AnimationObserver />}
       {!isSpecialPage && <Navbar />}
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       {!isSpecialPage && <Footer />}
     </>
   );

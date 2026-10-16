@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 const SKIP_INTRO_SECONDS = 20; // burned-in address titles are gone by ~16s
 
@@ -14,6 +14,7 @@ export default function PropertyVideo({ video }) {
   // Only start downloading once the visitor scrolls near the section
   const isNearView = useInView(ref, { once: true, margin: '600px 0px' });
   const [isPlaying, setIsPlaying] = useState(false);
+  const reduceMotion = useReducedMotion(); // show a still frame instead of autoplaying
 
   if (!video?.url) return null;
 
@@ -22,7 +23,7 @@ export default function PropertyVideo({ video }) {
       {isNearView && (
         <video
           src={video.url}
-          autoPlay
+          autoPlay={!reduceMotion}
           muted
           playsInline
           preload="metadata"
@@ -31,6 +32,7 @@ export default function PropertyVideo({ video }) {
           onLoadedMetadata={(e) => { e.currentTarget.currentTime = Math.min(SKIP_INTRO_SECONDS, e.currentTarget.duration / 4); }}
           onEnded={(e) => { e.currentTarget.currentTime = Math.min(SKIP_INTRO_SECONDS, e.currentTarget.duration / 4); e.currentTarget.play(); }}
           onPlaying={() => setIsPlaying(true)}
+          onSeeked={() => reduceMotion && setIsPlaying(true)}
           className={isPlaying ? 'is-playing' : ''}
         />
       )}

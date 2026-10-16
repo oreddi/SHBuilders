@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 export default function TuckmanReveal() {
   const containerRef = useRef(null);
@@ -9,6 +9,7 @@ export default function TuckmanReveal() {
   // Only start downloading the video once the visitor scrolls near it.
   const isNearView = useInView(containerRef, { once: true, margin: '600px 0px' });
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const reduceMotion = useReducedMotion(); // show a still frame instead of autoplaying
   const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function TuckmanReveal() {
       >
         {videoUrl && <video
           src={videoUrl}
-          autoPlay 
+          autoPlay={!reduceMotion}
           muted 
           loop 
           playsInline

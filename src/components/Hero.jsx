@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useReducedMotion } from 'framer-motion';
+import { trackEvent } from '@/lib/analytics';
 
 const FALLBACK_SLIDES = [
   { img: "/images/PherinWoodExteriors.jpg", name: "Custom Build" },
@@ -17,12 +19,19 @@ const Hero = ({ heroSlides = [] }) => {
     ? heroSlides.map(s => ({ img: s.imageUrl, name: s.title }))
     : FALLBACK_SLIDES;
 
+  // WCAG 2.2.2: auto-changing content needs a pause control, and should not
+  // move at all for visitors who ask their device to reduce motion.
+  const prefersReducedMotion = useReducedMotion();
+  const [paused, setPaused] = useState(false);
+  const autoPlay = !paused && !prefersReducedMotion && slides.length > 1;
+
   useEffect(() => {
+    if (!autoPlay) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [autoPlay, slides.length]);
 
   return (
     <div className="hero" id="home">
@@ -57,14 +66,26 @@ const Hero = ({ heroSlides = [] }) => {
         </span>
         <h1 className="hero-title reveal in" style={{ fontSize: '60px', fontWeight: '400', letterSpacing: '2px' }}>Building Value<br />For Over 28 Years</h1>
         <div className="hero-ctas reveal in">
-          <Link href="/portfolio" className="btn-outline" style={{ display: 'inline-block', borderColor: '#fff', color: '#fff' }}>
+          <Link href="/portfolio" className="btn-outline" style={{ display: 'inline-block', borderColor: '#fff', color: '#fff' }} onClick={() => trackEvent('cta_click', { location: 'hero', cta: 'view_our_work' })}>
             View Our Work
           </Link>
-          <Link href="/#contact" className="btn-solid">
+          <Link href="/#contact" className="btn-solid" onClick={() => trackEvent('cta_click', { location: 'hero', cta: 'start_project' })}>
             Start Your Project
           </Link>
         </div>
       </div>
+
+      {slides.length > 1 && !prefersReducedMotion && (
+        <button
+          type="button"
+          className="hero-pause"
+          onClick={() => setPaused(p => !p)}
+          aria-label={paused ? 'Play slideshow' : 'Pause slideshow'}
+          aria-pressed={paused}
+        >
+          {paused ? '▶' : '❚❚'}
+        </button>
+      )}
     </div>
   );
 };
