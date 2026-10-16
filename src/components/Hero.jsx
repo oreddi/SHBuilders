@@ -62,9 +62,10 @@ const Hero = ({ heroSlides = [] }) => {
       <div className="hero-overlay" />
       <div className="inner" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
         <span className="tag reveal in" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)', margin: '0 auto 20px', display: 'table' }}>
-          Premium Construction
+          Custom Luxury Homes
         </span>
-        <h1 className="hero-title reveal in" style={{ fontSize: '60px', fontWeight: '400', letterSpacing: '2px' }}>Building Value<br />For Over 28 Years</h1>
+        <h1 className="hero-title reveal in" style={{ fontSize: '60px', fontWeight: '400', letterSpacing: '2px' }}>Crafted Above<br />The Standard</h1>
+        <p className="hero-sub reveal in">Where finish, materials and process matter as much as the structure itself.</p>
         <div className="hero-ctas reveal in">
           <Link href="/portfolio" className="btn-outline" style={{ display: 'inline-block', borderColor: '#fff', color: '#fff' }} onClick={() => trackEvent('cta_click', { location: 'hero', cta: 'view_our_work' })}>
             View Our Work

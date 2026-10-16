@@ -24,7 +24,7 @@ export const metadata = {
     template: "%s | SH Builders",
   },
   description:
-    "SH Builders is a luxury custom home builder in Chattanooga, TN with 28+ years of experience. Design-build, general contracting, and renovation services delivering uncompromising craftsmanship.",
+    "SH Builders is a luxury custom home builder in Chattanooga, TN where craftsmanship, materials and client relationships come first. Design-build, general contracting, and renovation services delivering uncompromising craftsmanship.",
   keywords: [
     "custom home builder",
     "luxury homes",
@@ -45,7 +45,7 @@ export const metadata = {
     siteName: "SH Builders",
     title: "SH Builders | Premium Custom Home Construction",
     description:
-      "Luxury custom home builder with 28+ years of craftsmanship excellence. Portfolio of contemporary, traditional, mountain, coastal, and transitional homes.",
+      "Custom luxury home builder: design-build, general contracting and renovation, with finish and materials held to a higher standard.",
     images: [
       {
         url: `${SITE_URL}/images/PherinWoodExteriors.jpg`,
@@ -59,7 +59,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "SH Builders | Premium Custom Home Construction",
     description:
-      "Luxury custom home builder with 28+ years of craftsmanship excellence.",
+      "Custom luxury home builder: design-build, general contracting and renovation.",
     images: [`${SITE_URL}/images/PherinWoodExteriors.jpg`],
   },
   robots: {
@@ -106,7 +106,6 @@ const jsonLd = {
       },
       image: `${SITE_URL}/images/PherinWoodExteriors.jpg`,
       priceRange: "$$$$",
-      foundingDate: "1997",
       numberOfEmployees: {
         "@type": "QuantitativeValue",
         minValue: 10,

@@ -10,7 +10,7 @@ const Footer = () => (
           SHBUILDERS
         </div>
         <p className="ft-desc" style={{color: 'rgba(255,255,255,0.5)', lineHeight: '1.8', maxWidth: '400px'}}>
-          Custom homes and renovations since 1997 — planned carefully, built by trusted hands, and finished to last.
+          Custom luxury homes and renovations — planned carefully, built by trusted hands, and finished to last.
         </p>
       </div>
       <div className="ft-col">

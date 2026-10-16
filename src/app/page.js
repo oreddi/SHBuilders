@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Hero from '@/components/Hero';
-import { Stats, About, Services, ProcessVideo, Clients } from '@/components/HomeSections';
+import { About, Services, ProcessVideo, Clients } from '@/components/HomeSections';
 import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import TuckmanReveal from '@/components/TuckmanReveal';

@@ -4,24 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const statsData = [
-  { n: '28+', l: 'Years Building' },
-  { n: '420', l: 'Homes Completed' },
-  { n: '₹3.2B+', l: 'Project Value' },
-  { n: '99%', l: 'Client Satisfaction' }
-];
-
-export const Stats = () => (
-  <div className="stats reveal">
-    {statsData.map((stat, i) => (
-      <div className="stat" key={i}>
-        <span className="stat-n">{stat.n}</span>
-        <span className="stat-l">{stat.l}</span>
-      </div>
-    ))}
-  </div>
-);
-
 export const VideoStrip = () => (
   <div className="vid-strip reveal">
     <div className="vid-overlay">
@@ -37,10 +19,10 @@ export const About = () => (
     <div className="inner">
       <div className="split-grid" style={{ alignItems: 'center', gap: '80px' }}>
         <div className="reveal in">
-          <span className="tag">Since 1997</span>
+          <span className="tag">Our Approach</span>
           <h2 className="h2" style={{ fontSize: '56px' }}>One Builder,<br />Start to Finish</h2>
           <p className="body-p">
-            For nearly three decades, SH Builders has guided families from the first sketch to the final walkthrough. Design, planning, construction and renovation stay under one roof, with one team accountable for every decision, every trade and every finish. We build each home the way we would build our own.
+            SH Builders guides families from the first sketch to the final walkthrough. Design, planning, construction and renovation stay under one roof, with one team accountable for every decision, every trade and every finish. We build each home the way we would build our own.
           </p>
           <Link href="/company" className="btn-outline" style={{ marginTop: '40px', color: 'var(--navy)', borderColor: 'var(--navy)', display: 'inline-block' }}>
             Our Company
