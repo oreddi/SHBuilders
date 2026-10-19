@@ -132,13 +132,13 @@ export const ProcessVideo = () => {
   ];
 
   return (
-    <section className="sec" id="process" style={{ backgroundColor: 'var(--stone)', color: 'var(--black)', padding: '140px 10% 160px', position: 'relative', overflow: 'hidden' }}>
+    <section className="sec" id="process" style={{ background: 'linear-gradient(to bottom, var(--navy) 0%, var(--navy) 18%, var(--stone) 80%, var(--stone) 100%)', color: 'var(--black)', padding: '140px 10% 160px', position: 'relative', overflow: 'hidden' }}>
       <div className="inner">
         {/* Section Header */}
         <div className="reveal in" style={{ textAlign: 'center', marginBottom: '80px' }}>
           <span className="tag" style={{ color: 'var(--gold)', marginBottom: '15px' }}>Our Process</span>
-          <h2 className="h2" style={{ color: 'var(--navy)', fontSize: 'clamp(36px, 5vw, 56px)', marginBottom: '20px' }}>The Building Cycle</h2>
-          <p className="body-p" style={{ color: 'var(--grey)', margin: '0 auto', maxWidth: '650px' }}>
+          <h2 className="h2" style={{ color: '#fff', fontSize: 'clamp(36px, 5vw, 56px)', marginBottom: '20px' }}>The Building Cycle</h2>
+          <p className="body-p" style={{ color: '#CBD5E0', margin: '0 auto', maxWidth: '650px' }}>
             A rigorous, transparent journey from initial concept to master-crafted completion, ensuring your custom home meets our uncompromising standards of luxury.
           </p>
         </div>
