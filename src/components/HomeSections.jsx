@@ -132,13 +132,13 @@ export const ProcessVideo = () => {
   ];
 
   return (
-    <section className="sec" id="process" style={{ backgroundColor: 'var(--navy)', color: '#fff', padding: '140px 10% 160px', position: 'relative', overflow: 'hidden' }}>
+    <section className="sec" id="process" style={{ backgroundColor: 'var(--stone)', color: 'var(--black)', padding: '140px 10% 160px', position: 'relative', overflow: 'hidden' }}>
       <div className="inner">
         {/* Section Header */}
         <div className="reveal in" style={{ textAlign: 'center', marginBottom: '80px' }}>
           <span className="tag" style={{ color: 'var(--gold)', marginBottom: '15px' }}>Our Process</span>
-          <h2 className="h2" style={{ color: '#fff', fontSize: 'clamp(36px, 5vw, 56px)', marginBottom: '20px' }}>The Building Cycle</h2>
-          <p className="body-p" style={{ color: '#8A99AD', margin: '0 auto', maxWidth: '650px' }}>
+          <h2 className="h2" style={{ color: 'var(--navy)', fontSize: 'clamp(36px, 5vw, 56px)', marginBottom: '20px' }}>The Building Cycle</h2>
+          <p className="body-p" style={{ color: 'var(--grey)', margin: '0 auto', maxWidth: '650px' }}>
             A rigorous, transparent journey from initial concept to master-crafted completion, ensuring your custom home meets our uncompromising standards of luxury.
           </p>
         </div>
@@ -161,8 +161,8 @@ export const ProcessVideo = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '24px',
-                background: 'var(--charcoal)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
+                background: 'var(--white)',
+                border: '1px solid var(--border)',
                 borderRadius: '8px',
                 padding: '30px',
                 transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease',
@@ -170,10 +170,10 @@ export const ProcessVideo = () => {
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--gold)';
                 e.currentTarget.style.transform = 'translateY(-10px)';
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(15,23,42,0.10)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.borderColor = 'var(--border)';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'none';
               }}
@@ -191,7 +191,7 @@ export const ProcessVideo = () => {
                   alt={step.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 25vw"
-                  style={{ objectFit: 'cover', filter: 'brightness(0.85)' }}
+                  style={{ objectFit: 'cover' }}
                   loading="lazy"
                 />
                 <div style={{
@@ -206,7 +206,7 @@ export const ProcessVideo = () => {
                   padding: '4px 12px',
                   borderRadius: '20px',
                   letterSpacing: '1px',
-                  boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+                  boxShadow: '0 4px 10px rgba(15,23,42,0.18)'
                 }}>
                   {step.num}
                 </div>
@@ -217,7 +217,7 @@ export const ProcessVideo = () => {
                 <h3 style={{
                   fontFamily: 'var(--serif)',
                   fontSize: '22px',
-                  color: '#fff',
+                  color: 'var(--navy)',
                   marginBottom: '12px',
                   fontWeight: '400',
                   lineHeight: '1.3'
@@ -226,7 +226,7 @@ export const ProcessVideo = () => {
                 </h3>
                 <p style={{
                   fontSize: '14px',
-                  color: '#A0AEC0',
+                  color: 'var(--grey)',
                   lineHeight: '1.7',
                   minHeight: '80px'
                 }}>
@@ -236,7 +236,7 @@ export const ProcessVideo = () => {
 
               {/* Technical PM Milestones */}
               <div style={{
-                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                borderTop: '1px solid var(--border)',
                 paddingTop: '20px',
                 marginTop: 'auto'
               }}>
@@ -262,7 +262,7 @@ export const ProcessVideo = () => {
                   {step.milestones.map((m, i) => (
                     <li key={i} style={{
                       fontSize: '13px',
-                      color: '#CBD5E0',
+                      color: 'var(--grey)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px'
