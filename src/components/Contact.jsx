@@ -60,7 +60,7 @@ const Contact = () => {
             </p>
             
             <div style={{ marginBottom: '40px' }}>
-              <h4 style={{fontFamily: 'var(--serif)', fontSize: '24px', marginBottom: '10px'}}>Where We Build</h4>
+              <h3 style={{fontFamily: 'var(--serif)', fontSize: '24px', fontWeight: 400, marginBottom: '10px'}}>Where We Build</h3>
               <p className="body-p" style={{margin: 0}}>Serving {CONTACT.serviceArea}</p>
               {CONTACT.streetAddress && (
                 <p className="body-p" style={{margin: 0}}>{CONTACT.streetAddress}, {CONTACT.city}, {CONTACT.region} {CONTACT.postalCode}</p>
@@ -89,9 +89,10 @@ const Contact = () => {
               <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp-field" aria-hidden="true" />
                 <div>
-                  <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Name *</label>
+                  <label htmlFor="contact-name" style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Name *</label>
                   <input
                     type="text"
+                    id="contact-name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -102,9 +103,10 @@ const Contact = () => {
                 </div>
                 <div className="form-row-split" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
                   <div>
-                    <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Email *</label>
+                    <label htmlFor="contact-email" style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Email *</label>
                     <input
                       type="email"
+                      id="contact-email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
@@ -114,9 +116,10 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Phone</label>
+                    <label htmlFor="contact-phone" style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Phone</label>
                     <input
                       type="tel"
+                      id="contact-phone"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
@@ -126,8 +129,9 @@ const Contact = () => {
                   </div>
                 </div>
                 <div>
-                  <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Budget Range</label>
+                  <label htmlFor="contact-budget" style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Budget Range</label>
                   <select
+                    id="contact-budget"
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
@@ -141,8 +145,9 @@ const Contact = () => {
                   </select>
                 </div>
                 <div>
-                  <label style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Project Description *</label>
+                  <label htmlFor="contact-message" style={{display: 'block', fontSize: '14px', marginBottom: '8px', color: 'var(--grey)'}}>Project Description *</label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
