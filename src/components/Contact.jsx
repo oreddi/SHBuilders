@@ -49,7 +49,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="sec sec-wh" id="contact" style={{ borderTop: '1px solid var(--border)' }}>
+    <section className="sec sec-wh contact-sec" id="contact">
       <div className="inner">
         <div className="split-grid">
           <div className="reveal">
@@ -76,7 +76,7 @@ const Contact = () => {
             </div>
           </div>
           
-          <div className="reveal" style={{background: 'var(--stone)', padding: '40px', borderRadius: '4px'}}>
+          <div className="reveal contact-card">
             {submitted ? (
               <div style={{ textAlign: 'center', padding: '60px 20px' }}>
                 <div style={{ fontSize: '48px', marginBottom: '16px', color: '#22C55E' }}>✓</div>
@@ -160,7 +160,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn-outline"
+                  className="btn-solid on-light"
                   style={{
                     width: '100%',
                     textAlign: 'center',

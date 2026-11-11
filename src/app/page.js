@@ -91,12 +91,7 @@ export default async function Home() {
         <Testimonials testimonials={testimonials} />
       </div>
 
-      {/* The "Special" Contact Reveal */}
-      <div style={{ position: 'relative', clipPath: 'inset(0 0 0 0)', background: 'var(--white)' }}>
-        <div style={{ position: 'relative', zIndex: 0, transform: 'translateY(-100px)', animation: 'parallaxReveal linear forwards' }}>
-          <Contact />
-        </div>
-      </div>
+      <Contact />
     </>
   );
 }

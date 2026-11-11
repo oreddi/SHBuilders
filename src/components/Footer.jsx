@@ -3,36 +3,36 @@ import Link from 'next/link';
 import { CONTACT, phoneHref } from '@/lib/siteConfig';
 
 const Footer = () => (
-  <footer id="contact" className="reveal in" style={{background: 'var(--navy)', padding: '120px 0 60px'}}>
+  <footer id="contact" className="reveal in" style={{background: 'var(--navy)'}}>
     <div className="inner ft-grid">
       <div>
-        <div className="ft-logo" style={{fontFamily: 'var(--serif)', fontSize: '28px', color: '#fff', letterSpacing: '4px', marginBottom: '20px'}}>
+        <div className="ft-logo" style={{fontFamily: 'var(--serif)', fontSize: '24px', color: '#fff', letterSpacing: '4px', marginBottom: '14px'}}>
           SHBUILDERS
         </div>
-        <p className="ft-desc" style={{color: 'rgba(255,255,255,0.5)', lineHeight: '1.8', maxWidth: '400px'}}>
+        <p className="ft-desc" style={{color: 'rgba(255,255,255,0.5)', lineHeight: '1.7', maxWidth: '360px', fontSize: '13px'}}>
           Custom luxury homes and renovations — planned carefully, built by trusted hands, and finished to last.
         </p>
       </div>
       <div className="ft-col">
-        <h4 style={{fontSize: '11px', color: '#fff', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '25px'}}>Company</h4>
-        <ul style={{listStyle: 'none', display: 'grid', gap: '15px'}}>
-          <li><Link href="/" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Home</Link></li>
-          <li><Link href="/company" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>About Us</Link></li>
-          <li><Link href="/portfolio" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Portfolio</Link></li>
-          <li><Link href="/services" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Services</Link></li>
-          <li><Link href="/process" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Our Process</Link></li>
-          <li><Link href="/testimonials" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Testimonials</Link></li>
-          <li><Link href="/contact" style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>Contact</Link></li>
+        <h4 style={{fontSize: '11px', color: '#fff', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '16px'}}>Company</h4>
+        <ul style={{listStyle: 'none', display: 'grid', gap: '10px'}}>
+          <li><Link href="/" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Home</Link></li>
+          <li><Link href="/company" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>About Us</Link></li>
+          <li><Link href="/portfolio" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Portfolio</Link></li>
+          <li><Link href="/services" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Services</Link></li>
+          <li><Link href="/process" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Our Process</Link></li>
+          <li><Link href="/testimonials" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Testimonials</Link></li>
+          <li><Link href="/contact" style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>Contact</Link></li>
         </ul>
       </div>
       <div className="ft-col">
-        <h4 style={{fontSize: '11px', color: '#fff', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '25px'}}>Contact</h4>
-        <ul style={{listStyle: 'none', display: 'grid', gap: '15px'}}>
-          <li><a href={`mailto:${CONTACT.email}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>{CONTACT.email}</a></li>
+        <h4 style={{fontSize: '11px', color: '#fff', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '16px'}}>Contact</h4>
+        <ul style={{listStyle: 'none', display: 'grid', gap: '10px'}}>
+          <li><a href={`mailto:${CONTACT.email}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>{CONTACT.email}</a></li>
           {CONTACT.phone && (
-            <li><a href={`tel:${phoneHref()}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px'}}>{CONTACT.phone}</a></li>
+            <li><a href={`tel:${phoneHref()}`} style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px'}}>{CONTACT.phone}</a></li>
           )}
-          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '14px', lineHeight: '1.6'}}>Serving {CONTACT.serviceArea}</span></li>
+          <li><span style={{color: 'rgba(255,255,255,0.5)', fontSize: '13px', lineHeight: '1.6'}}>Serving {CONTACT.serviceArea}</span></li>
         </ul>
       </div>
     </div>

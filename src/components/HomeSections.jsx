@@ -144,13 +144,7 @@ export const ProcessVideo = () => {
         </div>
 
         {/* Process Steps Timeline Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '40px',
-          position: 'relative',
-          marginTop: '60px'
-        }}>
+        <div className="cycle-grid">
           {steps.map((step, idx) => (
             <div
               className="reveal in"
@@ -164,7 +158,7 @@ export const ProcessVideo = () => {
                 background: 'var(--charcoal)',
                 border: '1px solid rgba(255, 255, 255, 0.05)',
                 borderRadius: '8px',
-                padding: '30px',
+                padding: '24px',
                 transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease',
               }}
               onMouseEnter={(e) => {
@@ -181,7 +175,7 @@ export const ProcessVideo = () => {
               {/* Image Preview Box */}
               <div style={{
                 position: 'relative',
-                height: '200px',
+                height: '180px',
                 width: '100%',
                 borderRadius: '4px',
                 overflow: 'hidden',
@@ -218,6 +212,7 @@ export const ProcessVideo = () => {
                   fontFamily: 'var(--serif)',
                   fontSize: '22px',
                   color: '#fff',
+                  minHeight: '58px',
                   marginBottom: '12px',
                   fontWeight: '400',
                   lineHeight: '1.3'

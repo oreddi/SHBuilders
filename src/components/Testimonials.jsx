@@ -12,6 +12,7 @@ export default function Testimonials({ testimonials = [] }) {
     <section className="sec sec-testimonials" id="testimonials">
       <div className="inner">
         <div className="testimonial-container reveal in">
+          <span className="tag" style={{ marginBottom: '10px' }}>Client Stories</span>
           <div className="quote-icon">“</div>
           <div className="testimonial-content">
             <p className="quote">
@@ -30,6 +31,7 @@ export default function Testimonials({ testimonials = [] }) {
                 key={idx}
                 className={`dot ${idx === activeIndex ? 'active' : ''}`}
                 onClick={() => setActiveIndex(idx)}
+                aria-label={`Show testimonial ${idx + 1}`}
               />
             ))}
           </div>
@@ -38,10 +40,8 @@ export default function Testimonials({ testimonials = [] }) {
 
       <style jsx>{`
         .sec-testimonials {
-          background: #fcfcfc;
-          padding: 80px 0;
-          border-top: 1px solid #eee;
-          border-bottom: 1px solid #eee;
+          background: var(--stone);
+          padding: 130px 100px;
         }
         .testimonial-container {
           max-width: 800px;
@@ -51,19 +51,20 @@ export default function Testimonials({ testimonials = [] }) {
         }
         .quote-icon {
           font-family: var(--font-cormorant-garamond);
-          font-size: 80px;
-          color: var(--navy);
-          opacity: 0.1;
+          font-size: 110px;
+          color: var(--gold);
+          opacity: 0.55;
           line-height: 1;
-          margin-bottom: -20px;
+          height: 60px;
+          margin-bottom: 10px;
         }
         .quote {
           font-family: var(--font-cormorant-garamond);
-          font-size: clamp(20px, 2.5vw, 28px);
-          color: #333;
+          font-size: clamp(22px, 2.8vw, 32px);
+          color: var(--navy);
           line-height: 1.5;
           font-style: italic;
-          margin-bottom: 25px;
+          margin-bottom: 30px;
         }
         .author-meta {
           display: flex;
@@ -88,22 +89,26 @@ export default function Testimonials({ testimonials = [] }) {
         .testimonial-dots {
           display: flex;
           justify-content: center;
-          gap: 8px;
-          margin-top: 30px;
+          gap: 10px;
+          margin-top: 40px;
         }
         .dot {
-          width: 6px;
-          height: 6px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
-          background: #ddd;
+          background: #cbd5e1;
           border: none;
           cursor: pointer;
           transition: all 0.3s ease;
           padding: 0;
         }
         .dot.active {
-          background: var(--navy);
-          transform: scale(1.3);
+          background: var(--gold);
+          width: 28px;
+          border-radius: 4px;
+        }
+        @media (max-width: 1024px) {
+          .sec-testimonials { padding: 100px 40px; }
         }
       `}</style>
     </section>

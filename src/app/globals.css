@@ -1033,6 +1033,12 @@ html {
   background: transparent;
   color: #fff;
 }
+/* on light backgrounds the hover fills navy instead of going see-through */
+.btn-solid.on-light:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
@@ -1217,12 +1223,26 @@ textarea:focus-visible,
   }
 }
 
-/* CTA band */
+/* Building Cycle: four steps in one row, never a lone card on its own line */
+.cycle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  position: relative;
+  margin-top: 60px;
+}
+@media (max-width: 1200px) {
+  .cycle-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .cycle-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* CTA band: full-width, heading on the left and buttons on the right, a shade lighter than navy */
 .cta-band {
-  background: var(--navy);
-  border-top: 1px solid rgba(197, 160, 89, 0.35);
+  background: var(--charcoal);
   color: #fff;
-  padding: 100px 0;
+  padding: 60px 100px;
   position: relative;
   z-index: 10;
 }
@@ -1233,23 +1253,92 @@ textarea:focus-visible,
   justify-content: space-between;
   gap: 40px;
 }
+.cta-band .tag {
+  margin-bottom: 10px;
+}
 .cta-band-title {
   color: #fff;
-  font-size: clamp(32px, 4vw, 52px);
-  margin-bottom: 16px;
+  font-size: clamp(26px, 2.6vw, 36px);
+  margin-bottom: 10px;
 }
 .cta-band-text {
   color: rgba(255, 255, 255, 0.7);
-  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 520px;
   margin: 0;
 }
 .cta-band-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.cta-band-actions .btn-solid,
+.cta-band-actions .btn-outline {
+  padding: 14px 28px;
+}
+@media (min-width: 1025px) {
+  .cta-band-inner { flex-wrap: nowrap; }
+}
+@media (max-width: 1024px) {
+  .cta-band { padding: 56px 40px; }
 }
 @media (max-width: 768px) {
-  .cta-band { padding: 72px 0; }
+  .cta-band { padding: 48px 0; text-align: center; }
+  .cta-band-inner { justify-content: center; gap: 28px; }
+  .cta-band-text { margin: 0 auto; }
+  .cta-band-actions { justify-content: center; width: 100%; }
+}
+
+/* Contact: white section with a framed form card, set apart from the grey reviews above */
+.contact-sec {
+  position: relative;
+  z-index: 10;
+  padding-top: 130px;
+  padding-bottom: 130px;
+  border-top: 1px solid var(--border);
+}
+.contact-card {
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  border-radius: 4px;
+  padding: 44px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+@media (max-width: 1024px) {
+  .contact-sec { padding-top: 90px; padding-bottom: 90px; }
+}
+@media (max-width: 600px) {
+  .contact-card { padding: 28px 20px; }
+}
+
+/* Footer: compact; same side gutters as the sections above, gold rule on top, link hovers */
+.ft-grid {
+  gap: 60px;
+  padding-bottom: 36px;
+}
+.ft-bottom {
+  padding-top: 24px;
+}
+footer {
+  padding: 64px 100px 28px;
+  border-top: 2px solid var(--gold);
+}
+.ft-col a,
+.ft-bottom a {
+  transition: color 0.3s ease;
+}
+.ft-col a:hover,
+.ft-bottom a:hover {
+  color: var(--gold) !important;
+}
+@media (max-width: 1024px) {
+  footer { padding: 56px 40px 28px; }
+}
+@media (max-width: 600px) {
+  footer { padding: 48px 0 24px !important; }
 }
 
 /* Lightbox */
