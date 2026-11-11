@@ -2,12 +2,12 @@ import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'node:crypto';
 import { prisma } from '@/lib/prisma';
-import { createSignedUploadUrl, objectExists, storageConfigured, MAX_FILE_BYTES } from '@/lib/storage';
+import { createUploadToken, objectExists, storageConfigured, MAX_FILE_BYTES } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
 
 const notConfigured = () =>
-  NextResponse.json({ error: 'File storage is not set up yet (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY missing).' }, { status: 503 });
+  NextResponse.json({ error: 'File storage is not set up yet (BLOB_READ_WRITE_TOKEN missing).' }, { status: 503 });
 
 const safeName = (name) =>
   String(name || 'file').normalize('NFKD').replace(/[^\w.\- ]+/g, '').replace(/\s+/g, '-').slice(-120) || 'file';
@@ -31,7 +31,7 @@ export async function GET(request, { params }) {
 }
 
 // POST /api/pm/tasks/[id]/attachments
-//   { step: 'start', fileName, size, contentType }  -> { uploadUrl, path }  (browser then PUTs the file)
+//   { step: 'start', fileName, size, contentType }  -> { clientToken, path }  (browser then uploads to Blob)
 //   { step: 'finish', path, fileName, size, contentType } -> attachment row
 // Any signed-in team member can attach files (e.g. site photos from the field).
 export async function POST(request, { params }) {
@@ -55,15 +55,15 @@ export async function POST(request, { params }) {
     if (!task) return NextResponse.json({ error: 'Task not found' }, { status: 404 });
 
     if (body?.step === 'start') {
-      const path = `${task.id}/${randomBytes(8).toString('hex')}-${safeName(body.fileName)}`;
-      const uploadUrl = await createSignedUploadUrl(path);
-      return NextResponse.json({ uploadUrl, path });
+      const path = `task-attachments/${task.id}/${randomBytes(8).toString('hex')}-${safeName(body.fileName)}`;
+      const clientToken = await createUploadToken(path);
+      return NextResponse.json({ clientToken, path });
     }
 
     if (body?.step === 'finish') {
       const path = String(body.path || '');
       // Only accept paths this route handed out for this task, and only once the file is really there
-      if (!path.startsWith(`${task.id}/`) || !(await objectExists(path))) {
+      if (!path.startsWith(`task-attachments/${task.id}/`) || !(await objectExists(path))) {
         return NextResponse.json({ error: 'Upload not found' }, { status: 400 });
       }
 

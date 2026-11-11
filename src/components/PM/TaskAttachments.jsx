@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { put } from '@vercel/blob/client';
 import { Paperclip, FileText, Image as ImageIcon, Trash2, Upload } from 'lucide-react';
 
 const formatSize = (bytes) =>
   bytes > 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 
-// Files on a task: drawings, RFIs, site photos. Upload is direct to storage via a signed URL.
+// Files on a task: drawings, RFIs, site photos. Upload goes straight to the private Blob store
+// with a one-file token from our API.
 export default function TaskAttachments({ taskId, labelStyle }) {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,13 +36,17 @@ export default function TaskAttachments({ taskId, labelStyle }) {
       return data;
     });
 
-    const { uploadUrl, path } = await api({ step: 'start', ...meta });
-    const put = await fetch(uploadUrl, {
-      method: 'PUT',
-      headers: { 'Content-Type': file.type || 'application/octet-stream' },
-      body: file,
-    });
-    if (!put.ok) throw new Error(`Upload of ${file.name} failed`);
+    const { clientToken, path } = await api({ step: 'start', ...meta });
+    try {
+      await put(path, file, {
+        access: 'private',
+        token: clientToken,
+        contentType: file.type || 'application/octet-stream',
+        multipart: file.size > 20 * 1024 * 1024,
+      });
+    } catch {
+      throw new Error(`Upload of ${file.name} failed`);
+    }
     return api({ step: 'finish', path, ...meta });
   };
 
