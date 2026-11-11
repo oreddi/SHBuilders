@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { CONTACT, phoneHref } from '@/lib/siteConfig';
 
 const Footer = () => (
-  <footer id="contact" className="reveal in" style={{background: 'var(--navy)'}}>
+  <footer className="reveal in" style={{background: 'var(--navy)'}}>
     <div className="inner ft-grid">
       <div>
         <div className="ft-logo" style={{fontFamily: 'var(--serif)', fontSize: '24px', color: '#fff', letterSpacing: '4px', marginBottom: '14px'}}>
@@ -38,7 +38,7 @@ const Footer = () => (
     </div>
     <div className="inner ft-bottom">
       <p className="ft-copy" style={{color: 'rgba(255,255,255,0.3)', fontSize: '12px', margin: 0}}>© 2026 SHBuilders. All rights reserved.</p>
-      <a href="#top" style={{color: 'rgba(255,255,255,0.3)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '2px'}}>Back to Top</a>
+      <a href="#" style={{color: 'rgba(255,255,255,0.3)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '2px'}}>Back to Top</a>
     </div>
   </footer>
 );

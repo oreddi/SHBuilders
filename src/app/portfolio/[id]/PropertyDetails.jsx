@@ -130,6 +130,8 @@ export default function PropertyDetails({ slug, property, nextProject }) {
                           zIndex: activeIndex === idx ? 2 : 1,
                         }}
                       >
+                        {/* plain <img> on purpose: the gallery shows the original full-quality photo */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         {isNear(idx) && <img
                           src={imgObj.img}
                           alt={imgObj.name}

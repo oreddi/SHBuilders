@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const CATEGORIES = [
   "All",
@@ -86,7 +87,12 @@ export default function PortfolioGrid({ projects = [] }) {
               <div className="proj-grid">
                 {paginatedProjects.map((proj, idx) => (
                   <Link href={`/portfolio/${proj.id}`} className="proj-card reveal in" key={proj.id || idx}>
-                    <img src={proj.img} alt={proj.name} loading="lazy" />
+                    <Image
+                      src={proj.img}
+                      alt={proj.name}
+                      fill
+                      sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
                     <div className="proj-overlay">
                       <div className="proj-info">
                         <span className="proj-cat">{proj.cat}</span>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Testimonials from '@/components/Testimonials';
 import CtaBand from '@/components/CtaBand';
 import { getTestimonials } from '@/lib/content';
@@ -24,7 +25,13 @@ export default async function CompanyPage() {
               </p>
             </div>
             <div className="split-img reveal">
-              <img src="/images/PherinWoodExteriors.jpg" alt="A finished SH Builders home" />
+              <Image
+                src="/images/PherinWoodExteriors.jpg"
+                alt="A finished SH Builders home"
+                width={1200}
+                height={800}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
           </div>
         </div>
