@@ -26,6 +26,7 @@ model Project {
   phases      Phase[]
   materials   Material[]
   activities  Activity[]
+  subLinks    SubLink[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -56,6 +57,7 @@ model Task {
   estimatedHours  Float?
   actualHours     Float?
   tags            String?   // comma-separated tags
+  attachments     Attachment[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -77,6 +79,36 @@ model Material {
   notes            String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+// File on a task (drawing, RFI, photo). The file itself lives in Supabase Storage
+// (private "task-attachments" bucket); this row holds its path and details.
+model Attachment {
+  id          String   @id @default(cuid())
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  fileName    String
+  path        String   @unique // object path inside the storage bucket
+  size        Int
+  contentType String?
+  uploadedBy  String?
+  createdAt   DateTime @default(now())
+
+  @@index([taskId])
+}
+
+// Read-only link for a subcontractor: shows only tasks assigned to `assignee`
+// on one project. Anyone with the token can view; revoke to switch it off.
+model SubLink {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  assignee  String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([projectId])
 }
 
 model Activity {

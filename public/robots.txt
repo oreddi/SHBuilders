@@ -6,6 +6,7 @@ Allow: /
 # Block admin and PM app from search indexing
 Disallow: /admin
 Disallow: /pm
+Disallow: /sub/
 Disallow: /api/
 
 # Sitemap

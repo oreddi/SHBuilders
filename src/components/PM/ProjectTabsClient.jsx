@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import KanbanBoard from './KanbanBoard';
 import MaterialsView from './MaterialsView';
 import ActivityLog from './ActivityLog';
+import SubLinksPanel from './SubLinksPanel';
 
 const TABS = [
   { id: 'kanban', label: 'Kanban Board' },
   { id: 'materials', label: 'Materials & Inventory' },
   { id: 'activity', label: 'Activity Log' },
+  { id: 'sublinks', label: 'Subcontractor Links' },
 ];
 
 export default function ProjectTabsClient({ projectId, tasks, phases, materials, activities }) {
@@ -20,6 +22,7 @@ export default function ProjectTabsClient({ projectId, tasks, phases, materials,
       <div style={{
         display: 'flex',
         gap: '24px',
+        overflowX: 'auto',
         borderBottom: '1px solid var(--border)',
         paddingBottom: '0',
         marginBottom: '0',
@@ -39,6 +42,7 @@ export default function ProjectTabsClient({ projectId, tasks, phases, materials,
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               fontFamily: 'inherit',
+              whiteSpace: 'nowrap',
             }}
           >
             {tab.label}
@@ -62,8 +66,12 @@ export default function ProjectTabsClient({ projectId, tasks, phases, materials,
         />
       )}
 
+      {activeTab === 'sublinks' && (
+        <SubLinksPanel projectId={projectId} tasks={tasks} />
+      )}
+
       {activeTab === 'activity' && (
-        <ActivityLog activities={activities} />
+        <ActivityLog activities={activities} projectId={projectId} />
       )}
     </>
   );

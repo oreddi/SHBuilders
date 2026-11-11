@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { removeObject, storageConfigured } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
 
@@ -83,7 +84,7 @@ export async function DELETE(request, { params }) {
 
     const task = await prisma.task.findUnique({
       where: { id },
-      include: { phase: { select: { projectId: true } } },
+      include: { phase: { select: { projectId: true } }, attachments: { select: { path: true } } },
     });
 
     if (!task) {
@@ -91,6 +92,11 @@ export async function DELETE(request, { params }) {
     }
 
     await prisma.task.delete({ where: { id } });
+
+    // Attachment rows are removed by the cascade; remove the stored files too
+    if (storageConfigured()) {
+      await Promise.all(task.attachments.map(a => removeObject(a.path).catch(() => {})));
+    }
 
     // Log activity
     await prisma.activity.create({

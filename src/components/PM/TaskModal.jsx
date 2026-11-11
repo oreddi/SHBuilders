@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, Trash2 } from 'lucide-react';
+import TaskAttachments from './TaskAttachments';
 
 export default function TaskModal({ task, phases, defaultPhaseId, onSave, onDelete, onClose }) {
   const [title, setTitle] = useState(task?.title || '');
@@ -240,6 +241,9 @@ export default function TaskModal({ task, phases, defaultPhaseId, onSave, onDele
                 placeholder="e.g. electrical, permit-required, critical-path"
               />
             </div>
+
+            {/* Attachments (only once the task exists) */}
+            {task?.id && <TaskAttachments taskId={task.id} labelStyle={labelStyle} />}
 
             {/* Actions */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>

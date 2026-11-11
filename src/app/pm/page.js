@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { signOut } from 'next-auth/react';
-import { CheckSquare, Layout, Plus, Search, Building2, Users, LogOut, Inbox } from 'lucide-react';
+import { CheckSquare, Layout, Plus, Search, Building2, Users, LogOut, Inbox, Package } from 'lucide-react';
 import NewProjectModal from '@/components/PM/NewProjectModal';
 
 export default function PMDashboard() {
@@ -58,6 +58,13 @@ export default function PMDashboard() {
               style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <Inbox size={16} /> Leads
+            </Link>
+            <Link
+              href="/pm/inventory"
+              className="btn-outline"
+              style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <Package size={16} /> Inventory
             </Link>
             <Link
               href="/pm/team"

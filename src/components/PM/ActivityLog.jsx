@@ -1,11 +1,11 @@
 "use client";
 
-import React from 'react';
-import { Clock, ArrowRight, User, Package, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Clock, ArrowRight, User, Package, CheckCircle, MessageSquare } from 'lucide-react';
 
 const TYPE_ICONS = {
   status_change: <ArrowRight size={14} />,
-  comment: <Clock size={14} />,
+  comment: <MessageSquare size={14} />,
   assignment: <User size={14} />,
   material_update: <Package size={14} />,
   phase_update: <CheckCircle size={14} />,
@@ -34,23 +34,70 @@ function timeAgo(dateStr) {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-export default function ActivityLog({ activities }) {
-  if (!activities || activities.length === 0) {
-    return (
-      <div style={{
-        textAlign: 'center',
-        padding: '80px 0',
-        color: 'var(--grey)',
-        fontSize: '14px',
-        marginTop: '30px',
-      }}>
-        No activity recorded yet.
-      </div>
-    );
-  }
+export default function ActivityLog({ activities: initialActivities, projectId }) {
+  const [activities, setActivities] = useState(initialActivities || []);
+  const [comment, setComment] = useState('');
+  const [posting, setPosting] = useState(false);
+  const [error, setError] = useState('');
+
+  const postComment = async (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+    setPosting(true);
+    setError('');
+    try {
+      const res = await fetch(`/api/pm/projects/${projectId}/activity`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: comment }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Failed to add comment');
+      setActivities(prev => [data, ...prev]);
+      setComment('');
+    } catch (err) {
+      setError(err.message);
+    }
+    setPosting(false);
+  };
 
   return (
     <div style={{ marginTop: '30px' }}>
+      {/* Comment box */}
+      <form onSubmit={postComment} style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+        <textarea
+          aria-label="Add a comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Add a comment or site update..."
+          rows={2}
+          maxLength={2000}
+          style={{
+            flex: '1 1 280px',
+            padding: '12px 14px',
+            border: '1px solid var(--border)',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontFamily: 'inherit',
+            resize: 'vertical',
+          }}
+        />
+        <button
+          type="submit"
+          className="btn-outline"
+          disabled={posting || !comment.trim()}
+          style={{ padding: '12px 24px', alignSelf: 'flex-start', opacity: posting || !comment.trim() ? 0.6 : 1 }}
+        >
+          {posting ? 'Posting...' : 'Post'}
+        </button>
+      </form>
+      {error && <p role="alert" style={{ color: '#DC2626', fontSize: '13px', margin: '-8px 0 16px' }}>{error}</p>}
+
+      {activities.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--grey)', fontSize: '14px' }}>
+          No activity recorded yet.
+        </div>
+      ) : (
       <div style={{
         background: '#fff',
         borderRadius: '8px',
@@ -118,6 +165,7 @@ export default function ActivityLog({ activities }) {
           );
         })}
       </div>
+      )}
     </div>
   );
 }

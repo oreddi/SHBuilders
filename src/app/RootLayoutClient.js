@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
-  const isSpecialPage = pathname?.startsWith('/admin') || pathname?.startsWith('/pm');
+  const isSpecialPage = pathname?.startsWith('/admin') || pathname?.startsWith('/pm') || pathname?.startsWith('/sub/');
 
   return (
     <>
