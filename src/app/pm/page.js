@@ -91,7 +91,7 @@ export default function PMDashboard() {
         </div>
 
         {/* Stats Row */}
-        <div style={{
+        <div className="pm-stats-row" style={{
           display: 'flex',
           gap: '24px',
           marginBottom: '30px',

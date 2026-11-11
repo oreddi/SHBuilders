@@ -694,6 +694,19 @@ footer {
   gap: 30px;
 }
 
+/* PM on tablets and phones: normal gutters, header stacks, stat rows wrap */
+@media (max-width: 1024px) {
+  .pm-container { padding: 100px 32px 48px; }
+}
+@media (max-width: 768px) {
+  .pm-container { padding: 88px 16px 40px; }
+  .pm-container .inner { padding: 0 !important; }
+  .pm-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .pm-header > div { flex-wrap: wrap; }
+  .pm-grid { grid-template-columns: 1fr; gap: 16px; }
+  .pm-stats-row { flex-wrap: wrap; gap: 12px 20px !important; }
+}
+
 .pm-card {
   background: #fff;
   padding: 30px;

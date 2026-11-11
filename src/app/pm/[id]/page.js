@@ -115,7 +115,7 @@ export default async function ProjectDetailPage({ params }) {
         </div>
 
         {/* Quick Stats Bar */}
-        <div style={{
+        <div className="pm-stats-row" style={{
           display: 'flex',
           gap: '30px',
           padding: '20px 0',

@@ -10,6 +10,9 @@ const pool = new Pool({
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
+// Dates relative to when the seed runs, so overdue / due-soon examples always exist
+const daysFromNow = (n) => new Date(Date.now() + n * 86400000);
+
 async function main() {
   // Clean up in correct order (respecting foreign keys)
   await prisma.activity.deleteMany();
@@ -55,10 +58,10 @@ async function main() {
             name: 'Framing', order: 3,
             tasks: {
               create: [
-                { title: 'First floor framing', status: 'in_progress', priority: 'high', assignee: 'Mike T.', description: 'Using engineered lumber per spec.' },
-                { title: 'Second floor joists', status: 'todo', assignee: 'Mike T.' },
-                { title: 'Roof trusses installation', status: 'todo', priority: 'high' },
-                { title: 'Framing inspection', status: 'not_started' },
+                { title: 'First floor framing', status: 'in_progress', priority: 'high', assignee: 'Mike T.', description: 'Using engineered lumber per spec.', dueDate: daysFromNow(1), estimatedHours: 40, actualHours: 28 },
+                { title: 'Second floor joists', status: 'todo', assignee: 'Mike T.', dueDate: daysFromNow(6) },
+                { title: 'Roof trusses installation', status: 'todo', priority: 'high', assignee: 'Gulf Coast Trusses', dueDate: daysFromNow(10) },
+                { title: 'Framing inspection', status: 'not_started', dueDate: daysFromNow(14), tags: 'inspection, critical-path' },
               ],
             },
           },
@@ -95,7 +98,7 @@ async function main() {
         create: [
           { name: '2x6 SPF Lumber', quantityNeeded: 450, unit: 'pieces', status: 'delivered', supplier: 'Home Depot Pro', quantityOrdered: 450, quantityOnSite: 450 },
           { name: 'Concrete (4000 PSI)', quantityNeeded: 85, unit: 'cubic_yd', status: 'installed', supplier: 'Martin Marietta', quantityOrdered: 85, quantityOnSite: 0, quantityInstalled: 85 },
-          { name: 'Engineered Floor Joists', quantityNeeded: 60, unit: 'pieces', status: 'ordered', supplier: 'Weyerhaeuser', quantityOrdered: 60 },
+          { name: 'Engineered Floor Joists', quantityNeeded: 60, unit: 'pieces', status: 'ordered', supplier: 'Weyerhaeuser', quantityOrdered: 60, expectedDelivery: daysFromNow(3) },
           { name: 'Architectural Shingles', quantityNeeded: 45, unit: 'boxes', status: 'not_ordered', supplier: 'GAF' },
           { name: 'Romex 12/2 Wire', quantityNeeded: 2500, unit: 'linear_ft', status: 'not_ordered' },
         ],
@@ -110,7 +113,7 @@ async function main() {
     data: {
       name: 'Alydar Loop Renovation',
       description: 'Full kitchen and living room remodel with custom white-oak cabinetry and quartz countertops.',
-      address: '142 Alydar Loop, Chattanooga, TN',
+      address: '24253 Alydar Loop, Daphne, AL',
       clientName: 'Sarah & James Mitchell',
       status: 'active',
       phases: {
@@ -129,8 +132,8 @@ async function main() {
             name: 'Rough-In', order: 2,
             tasks: {
               create: [
-                { title: 'Electrical rough-in', status: 'blocked', priority: 'high', description: 'Waiting for electrical permit approval from city.', assignee: 'Dave L.' },
-                { title: 'Plumbing rough-in', status: 'todo', assignee: 'Dave L.' },
+                { title: 'Electrical rough-in', status: 'blocked', priority: 'high', description: 'Waiting for electrical permit approval from city.', assignee: 'Dave L.', dueDate: daysFromNow(-2) },
+                { title: 'Plumbing rough-in', status: 'todo', assignee: 'Dave L.', dueDate: daysFromNow(2) },
                 { title: 'HVAC modifications', status: 'todo' },
               ],
             },
@@ -152,7 +155,7 @@ async function main() {
       },
       materials: {
         create: [
-          { name: 'White Oak Cabinet Set', quantityNeeded: 1, unit: 'pieces', status: 'ordered', supplier: 'Custom Millwork Co.', quantityOrdered: 1, notes: 'Lead time: 6 weeks' },
+          { name: 'White Oak Cabinet Set', quantityNeeded: 1, unit: 'pieces', status: 'ordered', supplier: 'Custom Millwork Co.', quantityOrdered: 1, notes: 'Lead time: 6 weeks', expectedDelivery: daysFromNow(-1) },
           { name: 'Quartz Countertop Slab', quantityNeeded: 3, unit: 'pieces', status: 'quote_requested', supplier: 'Cambria' },
           { name: 'Subway Tile (3x6)', quantityNeeded: 200, unit: 'pieces', status: 'delivered', supplier: 'Floor & Decor', quantityOrdered: 200, quantityOnSite: 200 },
         ],
@@ -166,8 +169,8 @@ async function main() {
   const project3 = await prisma.project.create({
     data: {
       name: 'Wildwood Ave Custom Home',
-      description: 'Completed coastal-style 5-bedroom custom home with wrap-around porch and ocean views.',
-      address: '88 Wildwood Ave, Wilmington, NC',
+      description: 'Completed coastal-style 5-bedroom custom home with wrap-around porch.',
+      address: '1011 Wildwood Avenue, Mobile, AL',
       clientName: 'The Patels',
       status: 'completed',
       phases: {
