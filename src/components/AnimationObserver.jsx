@@ -19,15 +19,20 @@ const AnimationObserver = () => {
     });
 
     const timeout = setTimeout(() => {
-      // Leave anything already on screen visible (hiding and re-showing the hero
-      // delayed the first paint); only content further down gets the fade-in.
-      // All positions are read first, then classes change, so layout runs once.
+      // Anything already on screen (or scrolled past) is shown straight away;
+      // hiding and re-showing the hero delayed the first paint. Only content
+      // further down gets the fade-in. Positions are read first, then classes
+      // change, so layout runs once.
       const fold = window.innerHeight;
-      const below = [...document.querySelectorAll('.reveal')]
-        .filter(el => el.getBoundingClientRect().top > fold);
-      below.forEach(el => {
-        el.classList.remove('in');
-        observer.observe(el);
+      const elements = [...document.querySelectorAll('.reveal')];
+      const below = elements.map(el => el.getBoundingClientRect().top > fold);
+      elements.forEach((el, i) => {
+        if (below[i]) {
+          el.classList.remove('in');
+          observer.observe(el);
+        } else {
+          el.classList.add('in');
+        }
       });
     }, 100);
 
